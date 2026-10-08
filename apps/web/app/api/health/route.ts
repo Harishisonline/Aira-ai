@@ -14,7 +14,7 @@
  *     checks: {
  *       liveness: { ok: true },
  *       database: { ok, latencyMs, error? },
- *       worker:   { ok, latencyMs, error? }  // skipped if WORKER_URL not set
+ *       worker:   { ok, latencyMs, error?, skipped? }  // skipped if WORKER_URL is unset or local
  *     }
  *   }
  *
@@ -57,15 +57,29 @@ async function checkDatabase(): Promise<{ ok: boolean; latencyMs: number; error?
   }
 }
 
+function workerUrlIsUnroutable(raw: string): boolean {
+  const trimmed = raw.trim();
+  if (!trimmed) return true;
+  try {
+    const host = new URL(trimmed).hostname.replace(/^\[|\]$/g, '').toLowerCase();
+    return host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0' || host === '::1';
+  } catch {
+    return true;
+  }
+}
+
 async function checkWorker(): Promise<{ ok: boolean; latencyMs: number; error?: string; skipped?: boolean }> {
-  if (!WORKER_URL) {
+  // localhost from a Vercel function never reaches a worker. Skip instead of
+  // waiting on a connection that cannot succeed. A public worker URL is checked
+  // without WORKER_INTERNAL_TOKEN; /health is a status route, not an auth gate.
+  if (workerUrlIsUnroutable(WORKER_URL)) {
     return { ok: true, latencyMs: 0, skipped: true };
   }
   const t0 = Date.now();
   try {
     const r = await fetch(`${WORKER_URL}/health`, {
       method: 'GET',
-      signal: AbortSignal.timeout(3000),
+      signal: AbortSignal.timeout(5000),
     });
     const latencyMs = Date.now() - t0;
     if (!r.ok) return { ok: false, latencyMs, error: `HTTP ${r.status}` };
@@ -85,6 +99,7 @@ export async function GET() {
   return NextResponse.json(
     {
       ok,
+      ...(worker.skipped ? { message: 'Worker not deployed (set WORKER_URL to enable).' } : {}),
       service: 'aira-web',
       version: process.env.NEXT_PUBLIC_APP_VERSION ?? '1.3.0',
       ts: new Date().toISOString(),
