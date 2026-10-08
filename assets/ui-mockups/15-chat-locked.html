@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>Aira AI — Sign in to chat with Aira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --good: #009966; --sat: #1ea175; --mod: #ffc400; --poor: #ff8c00;
+    --vpoor: #dc3545; --severe: #7a0c28;
+    --primary: #0f4c75; --accent: #00a896;
+    --accent-tint: rgba(0,168,150,0.12);
+    --page: #f8fafc; --card: #ffffff;
+    --text-1: #111827; --text-2: #4b5563; --text-muted: #94a3b8;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--page); }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-1); font-size: 15px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Match signin page chrome so this feels like the same auth flow */
+  .page { width: 1440px; min-height: 900px; margin: 0 auto; }
+  .layout { display: grid; grid-template-columns: 1fr 560px; min-height: 900px; }
+
+  /* Brand panel (same as signin) */
+  .brand-panel {
+    background: linear-gradient(160deg, var(--primary) 0%, #0a3553 100%);
+    color: #fff;
+    padding: 48px 64px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .brand-panel::before {
+    content: ''; position: absolute; top: -100px; right: -100px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,168,150,0.18) 0%, transparent 70%);
+  }
+  .brand-top { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; z-index: 1; }
+  .brand-hero { z-index: 1; }
+  .brand-hero h2 {
+    font-size: 36px; font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.02em; margin-bottom: 16px; max-width: 480px;
+  }
+  .brand-hero p {
+    font-size: 16px; line-height: 1.6;
+    color: rgba(255,255,255,0.78); max-width: 440px;
+  }
+  .brand-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; z-index: 1; }
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+  .stat-num { font-size: 28px; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+  .stat-label {
+    font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.7);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .brand-foot { z-index: 1; font-size: 13px; color: rgba(255,255,255,0.5); }
+
+  /* Right panel: the actual locked-card message */
+  .form-panel { background: var(--card); padding: 80px 64px; display: flex; align-items: center; justify-content: center; }
+  .form-wrap { max-width: 432px; width: 100%; }
+
+  /* Locked icon */
+  .lock-icon {
+    width: 56px; height: 56px; border-radius: 16px;
+    background: var(--accent-tint);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .eyebrow {
+    font-size: 12px; font-weight: 600; color: var(--accent);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 30px; font-weight: 700;
+    letter-spacing: -0.02em; color: var(--text-1);
+    margin-bottom: 12px;
+  }
+  .sub {
+    font-size: 15px; line-height: 1.6; color: var(--text-2);
+    margin-bottom: 24px;
+  }
+
+  /* Benefit list */
+  .benefits {
+    list-style: none;
+    background: var(--page);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .benefits li {
+    display: flex; gap: 10px; align-items: flex-start;
+    font-size: 13px; line-height: 1.5; color: var(--text-2);
+    padding: 6px 0;
+  }
+  .benefits li + li { border-top: 1px solid var(--border); }
+  .benefits li svg { flex-shrink: 0; color: var(--accent); margin-top: 2px; }
+
+  /* CTAs */
+  .ctas { display: flex; flex-direction: column; gap: 12px; }
+  .btn-primary {
+    width: 100%; padding: 14px 16px;
+    background: var(--primary); color: #ffffff !important;
+    border: none; border-radius: 10px;
+    font-family: inherit; font-size: 15px; font-weight: 600;
+    cursor: pointer; text-decoration: none; display: inline-block;
+    text-align: center;
+    -webkit-appearance: none; appearance: none;
+  }
+  .btn-primary:hover { background: #0c3e5e; }
+  .btn-link {
+    display: block; text-align: center;
+    font-size: 14px; font-weight: 500; color: var(--text-2);
+    text-decoration: none; padding: 6px 0;
+  }
+  .btn-link:hover { color: var(--text-1); }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="layout">
+      <div class="brand-panel">
+        <div class="brand-top">Aira AI</div>
+        <div class="brand-hero">
+          <h2>Ask Aira anything about the air around you.</h2>
+          <p>Chat with Aira is grounded in real-time AQI, 7-day forecasts, your health profile, and the advisories you have read. Sign in to start chatting.</p>
+          <div class="brand-stats">
+            <div class="stat">
+              <div class="stat-num">7-day</div>
+              <div class="stat-label">Live data</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">4</div>
+              <div class="stat-label">Profiles</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">v</div>
+              <div class="stat-label">History saved</div>
+            </div>
+          </div>
+        </div>
+        <div class="brand-foot">v1 &middot; Maharashtra &middot; Built by Harish</div>
+      </div>
+
+      <div class="form-panel">
+        <div class="form-wrap">
+          <div class="lock-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="eyebrow">Chat with Aira</div>
+          <h1>Sign in to chat with Aira</h1>
+          <p class="sub">Your chat history is saved to your account so you can come back to it. Each chat remembers the location and profile you had when you started it.</p>
+
+          <ul class="benefits">
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Real-time AQI + 7-day forecast baked into every reply</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Tailored to your health profile: child, asthmatic, elderly, healthy</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Remembers the last 5 advisories you opened</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Multiple chat sessions, each with its own context</span>
+            </li>
+          </ul>
+
+          <div class="ctas">
+            <a href="#" class="btn-primary">Sign in to chat with Aira</a>
+            <a href="#" class="btn-link">&larr; Back to advisory</a>
+            <a href="#" class="btn-link" style="margin-left:8px;">Read what Aira can help with</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

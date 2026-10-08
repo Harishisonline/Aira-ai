@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>Aira AI — Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #f8fafc; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #111827; font-size: 15px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { width: 1440px; margin: 0 auto; background: #f8fafc; min-height: 100vh; }
+
+  /* NAV (shared component, same as other app pages) */
+  .nav {
+    height: 80px; padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #ffffff; border-bottom: 1px solid #e2e8f0;
+  }
+  .brand { font-size: 22px; font-weight: 700; color: #0f4c75; letter-spacing: -0.01em; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 15px; font-weight: 500; color: #4b5563; text-decoration: none; }
+  .nav-links a.active { color: #111827; font-weight: 600; }
+  .nav-divider { width: 1px; height: 20px; background: #e2e8f0; margin: 0 4px; }
+  .nav-secondary { font-size: 13px !important; font-weight: 500; color: #94a3b8 !important; padding: 8px 12px; border-radius: 8px; text-decoration: none; }
+  .nav-secondary:hover { background: #f8fafc; color: #4b5563 !important; }
+  .nav-secondary.active { color: #4b5563 !important; font-weight: 600 !important; background: #f8fafc; }
+  .nav-link-settings {
+    margin-left: 4px; padding: 8px 14px; border-radius: 8px;
+    font-size: 14px; font-weight: 500; color: #4b5563; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-link-settings:hover { background: #f8fafc; color: #111827; }
+  .nav-cta {
+    margin-left: 16px; padding: 10px 18px;
+    background: #0f4c75; color: #ffffff !important; border-radius: 8px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    display: inline-block;
+  }
+  .nav-cta:hover { background: #0c3e5e; }
+
+  /* CONTAINER */
+  .container { padding: 0 48px 80px; max-width: 1100px; margin: 0 auto; }
+
+  /* BREADCRUMB */
+  .crumb {
+    display: flex; gap: 8px; align-items: center;
+    padding: 24px 0 0; font-size: 13px; font-weight: 500; color: #94a3b8;
+  }
+  .crumb a { color: #94a3b8; text-decoration: none; }
+  .crumb .current { color: #4b5563; }
+
+  /* HERO */
+  .hero {
+    padding: 32px 0 40px;
+  }
+  .eyebrow {
+    font-size: 12px; font-weight: 600; color: #00a896;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-size: 40px; font-weight: 700;
+    letter-spacing: -0.02em; color: #111827;
+    margin-bottom: 14px;
+    max-width: 720px;
+  }
+  .lede {
+    font-size: 17px; line-height: 1.55; color: #4b5563;
+    max-width: 720px;
+  }
+
+  /* SECTION */
+  .section { padding: 32px 0; }
+  .section-eyebrow {
+    font-size: 11px; font-weight: 600; color: #00a896;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 28px; font-weight: 700;
+    letter-spacing: -0.02em; color: #111827;
+    margin-bottom: 12px;
+  }
+  .section-sub {
+    font-size: 15px; line-height: 1.6; color: #4b5563;
+    margin-bottom: 24px; max-width: 720px;
+  }
+
+  /* IN-SCOPE CARDS (2x2 grid) */
+  .scope-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .scope-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .scope-card-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(0,168,150,0.10); color: #00a896;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .scope-card h3 {
+    font-size: 16px; font-weight: 600; color: #111827;
+    margin-bottom: 6px;
+  }
+  .scope-card p {
+    font-size: 13px; line-height: 1.5; color: #4b5563;
+    margin-bottom: 12px;
+  }
+  .scope-card .example {
+    font-size: 12px; color: #94a3b8; font-style: italic;
+    padding-top: 10px; border-top: 1px solid #e2e8f0;
+  }
+  .scope-card .example::before { content: 'Try asking: '; font-style: normal; color: #4b5563; font-weight: 600; }
+
+  /* OUT-OF-SCOPE LIST */
+  .oos-list {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .oos-row {
+    display: grid; grid-template-columns: 200px 1fr;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    align-items: start;
+  }
+  .oos-row:last-child { border-bottom: none; }
+  .oos-topic {
+    font-size: 14px; font-weight: 600; color: #111827;
+  }
+  .oos-redirect {
+    font-size: 13px; line-height: 1.5; color: #4b5563;
+  }
+  .oos-redirect strong { color: #111827; font-weight: 600; }
+
+  /* HOW AIRA ANSWERS — two column with example conversation */
+  .how-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  .how-list {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .how-list h3 {
+    font-size: 16px; font-weight: 600; color: #111827;
+    margin-bottom: 16px;
+  }
+  .how-list ul { list-style: none; }
+  .how-list li {
+    display: flex; gap: 12px;
+    font-size: 14px; line-height: 1.5; color: #4b5563;
+    padding: 10px 0;
+  }
+  .how-list li + li { border-top: 1px solid #f1f5f9; }
+  .how-list li svg { flex-shrink: 0; color: #00a896; margin-top: 2px; }
+
+  .how-example {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .how-example h3 {
+    font-size: 16px; font-weight: 600; color: #111827;
+    margin-bottom: 16px;
+  }
+  .msg {
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 13px; line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .msg.user { background: #f1f5f9; color: #111827; }
+  .msg.assistant { background: rgba(0,168,150,0.10); color: #111827; }
+  .msg .src {
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 10px; font-weight: 600; color: #00a896;
+    background: #ffffff;
+    padding: 2px 6px; border-radius: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.04em;
+  }
+  .msg .sources {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid rgba(0,168,150,0.2);
+    font-size: 11px; color: #4b5563;
+  }
+  .msg .sources strong { color: #111827; font-weight: 600; }
+
+  /* PRIVACY */
+  .privacy {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 28px;
+  }
+  .privacy h2 { margin-bottom: 8px; }
+  .privacy p { font-size: 14px; line-height: 1.6; color: #4b5563; max-width: 720px; }
+  .privacy ul { list-style: none; margin-top: 16px; }
+  .privacy li {
+    display: flex; gap: 10px;
+    font-size: 13px; line-height: 1.5; color: #4b5563;
+    padding: 8px 0;
+  }
+  .privacy li svg { flex-shrink: 0; color: #00a896; margin-top: 2px; }
+
+  /* CTA BANNER */
+  .cta {
+    margin-top: 40px;
+    background: linear-gradient(135deg, #0f4c75 0%, #0a3553 100%);
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 40px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+    position: relative; overflow: hidden;
+  }
+  .cta::before {
+    content: ''; position: absolute;
+    top: -100px; right: -50px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,168,150,0.18) 0%, transparent 70%);
+  }
+  .cta h3 { font-size: 24px; font-weight: 700; margin-bottom: 8px; z-index: 1; }
+  .cta p { font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.78); max-width: 480px; z-index: 1; }
+  .cta-buttons { display: flex; gap: 12px; z-index: 1; flex-shrink: 0; }
+  .cta-btn-primary {
+    padding: 12px 22px;
+    background: #00a896; color: #ffffff;
+    border-radius: 10px; font-size: 14px; font-weight: 600;
+    text-decoration: none;
+    -webkit-appearance: none; appearance: none;
+  }
+  .cta-btn-primary:hover { background: #008c7e; }
+  .cta-btn-secondary {
+    padding: 12px 22px;
+    background: transparent; color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 10px; font-size: 14px; font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* FOOTER */
+  .foot {
+    margin-top: 48px;
+    padding: 24px 0;
+    border-top: 1px solid #e2e8f0;
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: #94a3b8;
+  }
+  .foot a { color: #4b5563; text-decoration: none; margin-left: 24px; }
+  .foot a:hover { color: #111827; }
+</style>
+</head>
+<body>
+  <div class="page">
+
+    <nav class="nav">
+      <div class="brand">Aira AI</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">City</a>
+        <a href="#">Compare</a>
+        <a href="#">Map</a>
+        <a href="#">Advisory</a>
+        <span class="nav-divider"></span>
+        <a href="#">Methodology</a>
+        <a href="#" class="nav-secondary active">Help</a>
+        <a href="#" class="nav-link-settings">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+        <a href="#" class="nav-cta">Sign in</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="crumb">
+        <a href="#">Home</a>
+        <span>/</span>
+        <span class="current">Help</span>
+      </div>
+
+      <div class="hero">
+        <div class="eyebrow">Help center</div>
+        <h1>Ask Aira anything about the air around you.</h1>
+        <p class="lede">Aira is the air quality assistant for Aira AI. This page tells you what Aira can help with, what it can't, and how it uses your data. Read this once and you'll know exactly what to expect.</p>
+      </div>
+
+      <section class="section">
+        <div class="section-eyebrow">In scope</div>
+        <h2>What Aira is great for</h2>
+        <p class="section-sub">Aira is grounded in live air quality data, the National AQI formula, your selected profile, and your recent advisory history. When you ask something in these areas, Aira gives a tailored, cited answer.</p>
+
+        <div class="scope-grid">
+          <div class="scope-card">
+            <div class="scope-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M20 12c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/></svg>
+            </div>
+            <h3>Live AQI for your area</h3>
+            <p>Current air quality, the 6 pollutant readings (PM2.5, PM10, NO2, SO2, CO, O3), and which bucket the AQI falls into (Good, Satisfactory, Moderate, Poor, Very Poor, Severe).</p>
+            <div class="example">"What's the AQI in Bandra right now?"</div>
+          </div>
+
+          <div class="scope-card">
+            <div class="scope-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3>7-day forecast for your place</h3>
+            <p>Linear regression on the last 30 days of readings, with a confidence band. Predictions for the next 7 days at the same place. Not longer than 7 days — the model is calibrated for that window only.</p>
+            <div class="example">"When will Borivali's air be cleanest this week?"</div>
+          </div>
+
+          <div class="scope-card">
+            <div class="scope-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3>Health advice for your profile</h3>
+            <p>Tailored to your selected health profile: Healthy adult, Child, Elderly, or Asthmatic. Aira translates AQI numbers into what they mean for <em>you</em>, not what they mean on average.</p>
+            <div class="example">"Is it safe for my son to play cricket tomorrow?"</div>
+          </div>
+
+          <div class="scope-card">
+            <div class="scope-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="3" x2="15" y2="18"/></svg>
+            </div>
+            <h3>Station comparison and method</h3>
+            <p>Which station near you is cleanest right now, why AQI is the way it is, and how the National AQI formula and the forecast model work. All grounded in the data or the methodology page.</p>
+            <div class="example">"Is Bandra worse than Borivali today? Why?"</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-eyebrow">Out of scope</div>
+        <h2>What Aira can't help with</h2>
+        <p class="section-sub">Aira is a narrow assistant. It will decline questions outside its scope and suggest where to find an answer instead. Decline messages are short, never moralize, and always offer a redirect.</p>
+
+        <div class="oos-list">
+          <div class="oos-row">
+            <div class="oos-topic">General knowledge</div>
+            <div class="oos-redirect">History, science unrelated to AQI, geography, math, coding help. Aira won't answer these. <strong>Try a general-purpose assistant for that.</strong></div>
+          </div>
+          <div class="oos-row">
+            <div class="oos-topic">Medical diagnosis</div>
+            <div class="oos-redirect">Aira translates AQI into general health implications. It does not diagnose conditions, prescribe, or replace a doctor. <strong>For personal medical advice, consult a qualified professional.</strong></div>
+          </div>
+          <div class="oos-row">
+            <div class="oos-topic">Forecasts beyond 7 days</div>
+            <div class="oos-redirect">The model is calibrated for 7 days. Aira will refuse to predict beyond that and say so. <strong>For long-range weather context, try a weather service.</strong></div>
+          </div>
+          <div class="oos-row">
+            <div class="oos-topic">Indoor air quality</div>
+            <div class="oos-redirect">Aira reports outdoor AQI from CPCB monitoring stations. It does not have indoor sensor data. <strong>For indoor air, you need a separate indoor monitor.</strong></div>
+          </div>
+          <div class="oos-row">
+            <div class="oos-topic">Other states or countries</div>
+            <div class="oos-redirect">v1 only ships with Maharashtra data. Aira will tell you that and stop. <strong>Other states are coming in a later release.</strong></div>
+          </div>
+          <div class="oos-row">
+            <div class="oos-topic">Real-time events</div>
+            <div class="oos-redirect">Aira reads the live feed but doesn't have news, social media, or fire data. It can't tell you <em>why</em> a spike happened unless the cause is obvious from pollutant patterns. <strong>For incident context, see local news.</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-eyebrow">How Aira answers</div>
+        <h2>Citations, your profile, and frozen context</h2>
+        <p class="section-sub">Every Aira reply cites the data behind it. Aira's behavior is shaped by three things: the data it has access to, the profile you selected, and the area the chat was opened in.</p>
+
+        <div class="how-grid">
+          <div class="how-list">
+            <h3>What Aira does on every reply</h3>
+            <ul>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Cites every factual claim</strong> with a small chip pointing to the source: live reading, 7-day forecast, or methodology</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Tailors to your health profile</strong> — child, asthmatic, elderly, healthy adult. Switch profiles in <a href="#" style="color:#00a896;font-weight:600;">Settings → Health profile</a>.</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Uses frozen context per chat</strong> — each chat remembers the location and profile you had when you opened it. Open an old chat and Aira still answers in that context.</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Refreshes live data per turn</strong> — AQI and forecast numbers are re-fetched every message so they stay current</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Decay: refuses out-of-scope</strong> questions in one sentence and offers a redirect — never preaches, never moralizes</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="how-example">
+            <h3>Example reply with citations</h3>
+            <div class="msg user">Is it safe for my son to play cricket this Saturday morning in Borivali?</div>
+            <div class="msg assistant">
+              Yes, Saturday morning is a good window. Borivali's AQI is forecast at 135 (Moderate) at 8am, peaking to 158 by afternoon <span class="src">[forecast: 7-day, model v1-linreg-30d]</span>. PM2.5 will be the limiting pollutant, around 58 ug/m3 <span class="src">[forecast: 7-day]</span>. For an 8-year-old with mild asthma, an hour of outdoor play between 7-10am is safe. Avoid the 2-5pm peak <span class="src">[forecast: 7-day]</span>.
+              <div class="sources">
+                <strong>Sources used:</strong> <span style="color:#00a896;">get_7day_forecast(borivali)</span> &middot; <span style="color:#00a896;">get_recent_advisories_for_user(5)</span> &middot; <span style="color:#00a896;">user.health_profile = "child, mild asthma"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="privacy">
+          <div class="section-eyebrow">Privacy</div>
+          <h2>What Aira sees and what it stores</h2>
+          <p>Aira runs on our servers using a third-party language model (Groq). Your messages and the chat's frozen context are sent to the model provider to generate a reply. We store every chat session in your account, encrypted at rest. We do not use your chats to train any model.</p>
+          <ul>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Data Aira sees per message:</strong> your selected location, your health profile, the last 5 advisories you opened, the relevant AQI/forecast/methodology data for your question.</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Data Aira does NOT see:</strong> your email, your password, your billing info (v1 has no billing), or anything from outside the Aira AI app.</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Delete your data:</strong> <a href="#" style="color:#00a896;font-weight:600;">Settings → Account → Delete account</a> removes your user row, all chat sessions, all messages, and all advisory history. Hard delete, no soft-retention.</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Daily limit:</strong> 50 messages per user per day. After that, Aira will tell you to come back tomorrow. v1 cap; relaxed in v2.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="cta">
+        <div>
+          <h3>Ready to chat with Aira?</h3>
+          <p>Sign in to start a conversation. Your chats are saved to your account, scoped to the location and profile you had when you opened each one.</p>
+        </div>
+        <div class="cta-buttons">
+          <a href="#" class="cta-btn-primary">Sign in to chat</a>
+          <a href="#" class="cta-btn-secondary">Read the methodology</a>
+        </div>
+      </div>
+
+      <div class="foot">
+        <div>v1.0 &middot; Maharashtra &middot; Built by Harish</div>
+        <div>
+          <a href="#">Methodology</a>
+          <a href="#">Privacy</a>
+          <a href="#">Contact</a>
+          <a href="#">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

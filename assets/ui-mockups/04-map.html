@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>Aira AI — Maharashtra Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --good: #009966; --sat: #1ea175; --mod: #ffc400; --poor: #ff8c00;
+    --vpoor: #dc3545; --severe: #7a0c28;
+    --primary: #0f4c75; --accent: #00a896;
+    --page: #f8fafc; --card: #ffffff;
+    --text-1: #111827; --text-2: #4b5563; --text-muted: #94a3b8;
+    --border: #e2e8f0;
+    --land: #ebf0eb; --water: #c8dceb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--page); }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-1); font-size: 15px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { width: 1440px; margin: 0 auto; background: var(--page); }
+
+  .nav {
+    height: 80px; padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--card); border-bottom: 1px solid var(--border);
+  }
+  .brand { font-size: 22px; font-weight: 700; color: var(--primary); letter-spacing: -0.01em; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 15px; font-weight: 500; color: var(--text-2); text-decoration: none; }
+  .nav-links a.active { color: var(--text-1); font-weight: 600; }
+  .nav-divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+  .nav-secondary { font-size: 13px !important; font-weight: 500; color: var(--text-muted) !important; padding: 8px 12px; border-radius: 8px; }
+  .nav-secondary:hover { background: var(--page); color: var(--text-2) !important; }
+  .nav-secondary.active { color: var(--text-2) !important; font-weight: 600 !important; background: var(--page); }
+  .nav-cta {
+    margin-left: 16px; padding: 10px 18px;
+    background: var(--primary); color: #ffffff !important;
+    border-radius: 8px; font-size: 14px; font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .nav-cta:hover { background: #0c3e5e; }
+  .nav-link-settings {
+    margin-left: 4px; padding: 8px 14px;
+    border-radius: 8px; font-size: 14px; font-weight: 500;
+    color: var(--text-2); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-link-settings:hover { background: var(--page); color: var(--text-1); }
+  .nav-link-settings.active { color: var(--text-1); font-weight: 600; background: var(--page); }
+
+  /* Change-location pill — shared across all main app pages */
+  .change-location {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px; font-weight: 500; color: var(--text-1);
+    cursor: pointer; text-decoration: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .change-location:hover { border-color: var(--accent); background: var(--page); }
+  .change-location .pin { color: var(--accent); }
+  .change-location .chev { color: var(--text-muted); }
+
+  .container { padding: 32px 48px 48px; }
+  h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-1); margin-bottom: 8px; }
+  .header-sub { font-size: 14px; line-height: 1.5; color: var(--text-2); margin-bottom: 24px; }
+
+  .body { display: grid; grid-template-columns: 900px 1fr; gap: 24px; }
+
+  .map {
+    position: relative;
+    background: var(--land);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    height: 700px; overflow: hidden;
+  }
+  .map-water {
+    position: absolute; left: 0; top: 180px;
+    width: 220px; height: 480px;
+    background: var(--water); border-radius: 50%;
+  }
+  .map-blob {
+    position: absolute; left: 100px; top: 50px;
+    width: 700px; height: 580px;
+    background: var(--land);
+    border: 2px dashed var(--border);
+    border-radius: 50%;
+  }
+  .map-label {
+    position: absolute; font-size: 12px; font-weight: 700; color: var(--text-muted);
+    letter-spacing: 0.12em;
+  }
+  .map-label.state { top: 24px; right: 24px; }
+  .map-label.sea { bottom: 24px; left: 24px; }
+
+  .marker {
+    position: absolute;
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--card); font-size: 9px; font-weight: 700;
+    border: 2px solid var(--card);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  .m-good { background: var(--good); }
+  .m-sat { background: var(--sat); }
+  .m-mod { background: var(--mod); }
+  .m-poor { background: var(--poor); }
+  .m-vpoor { background: var(--vpoor); }
+  .m-severe { background: var(--severe); }
+
+  .sidebar { display: flex; flex-direction: column; gap: 16px; }
+  .panel {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 20px;
+  }
+  .panel-title { font-size: 14px; font-weight: 600; color: var(--text-1); margin-bottom: 12px; }
+  .compare-cta {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #0f4c75 0%, #0a3553 100%);
+    color: #ffffff !important;
+    border-radius: 12px;
+    font-size: 14px; font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(15,76,117,0.20);
+  }
+  .compare-cta:hover { background: linear-gradient(135deg, #0a3553 0%, #062540 100%); }
+  .legend-item { display: flex; gap: 10px; align-items: center; padding: 4px 0; font-size: 13px; font-weight: 500; color: var(--text-2); }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; }
+
+  .list-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0; border-top: 1px solid var(--border);
+  }
+  .list-row:last-child { border-bottom: none; }
+  .list-left { display: flex; gap: 10px; align-items: center; }
+  .rank { font-size: 13px; font-weight: 600; color: var(--text-muted); width: 16px; }
+  .name { font-size: 14px; font-weight: 500; color: var(--text-1); }
+  .val { font-size: 16px; font-weight: 700; }
+  .v-poor { color: var(--poor); }
+  .v-mod { color: var(--mod); }
+  .v-sat { color: var(--sat); }
+  .v-good { color: var(--good); }
+  .v-vpoor { color: var(--vpoor); }
+</style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav">
+      <div class="brand">Aira AI</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">City</a>
+        <a href="#">Compare</a>
+        <a href="#">Map</a>
+        <a href="#">Advisory</a>
+        <span class="nav-divider"></span>
+        <a href="#" class="nav-secondary">Methodology</a>
+        <a href="#" class="nav-secondary">Help</a>
+        <a href="#settings" class="nav-link-settings">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+        <a href="#" class="nav-cta">Sign in</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px;">
+        <div>
+          <h1 style="margin: 0;">Maharashtra AQI map</h1>
+          <p class="header-sub" style="margin: 8px 0 0;">Every active CPCB monitoring station. Marker color matches the AQI bucket.</p>
+        </div>
+        <a href="#" class="change-location" style="flex-shrink: 0;">
+          <svg class="pin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Change location
+          <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+      </div>
+
+      <div class="body">
+        <div class="map">
+          <div class="map-water"></div>
+          <div class="map-blob"></div>
+          <div class="map-label state">MAHARASHTRA</div>
+          <div class="map-label sea">ARABIAN SEA</div>
+
+          <div class="marker m-poor"   style="left:200px; top:380px;">168</div>
+          <div class="marker m-mod"    style="left:240px; top:460px;">152</div>
+          <div class="marker m-mod"    style="left:300px; top:400px;">145</div>
+          <div class="marker m-vpoor"  style="left:330px; top:320px;">178</div>
+          <div class="marker m-mod"    style="left:460px; top:280px;">132</div>
+          <div class="marker m-sat"    style="left:380px; top:130px;">88</div>
+          <div class="marker m-sat"    style="left:620px; top:300px;">95</div>
+          <div class="marker m-mod"    style="left:500px; top:380px;">112</div>
+          <div class="marker m-sat"    style="left:380px; top:540px;">72</div>
+          <div class="marker m-good"   style="left:460px; top:560px;">68</div>
+          <div class="marker m-mod"    style="left:580px; top:500px;">105</div>
+          <div class="marker m-mod"    style="left:580px; top:240px;">118</div>
+          <div class="marker m-mod"    style="left:560px; top:320px;">142</div>
+          <div class="marker m-sat"    style="left:660px; top:460px;">88</div>
+          <div class="marker m-mod"    style="left:700px; top:380px;">102</div>
+          <div class="marker m-mod"    style="left:720px; top:280px;">128</div>
+          <div class="marker m-good"   style="left:240px; top:560px;">56</div>
+          <div class="marker m-good"   style="left:200px; top:620px;">48</div>
+        </div>
+
+        <div class="sidebar">
+          <a href="#" class="compare-cta">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Compare two stations
+          </a>
+
+          <div class="panel">
+            <div class="panel-title">AQI legend</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--good)"></span>Good (0-50)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--sat)"></span>Satisfactory (51-100)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--mod)"></span>Moderate (101-200)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--poor)"></span>Poor (201-300)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--vpoor)"></span>Very Poor (301-400)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--severe)"></span>Severe (401+)</div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Top 5 worst right now</div>
+            <div class="list-row"><div class="list-left"><span class="rank">1</span><span class="name">Thane</span></div><span class="val v-vpoor">178</span></div>
+            <div class="list-row"><div class="list-left"><span class="rank">2</span><span class="name">Mumbai Bandra</span></div><span class="val v-poor">168</span></div>
+            <div class="list-row"><div class="list-left"><span class="rank">3</span><span class="name">Mumbai Colaba</span></div><span class="val v-mod">152</span></div>
+            <div class="list-row"><div class="list-left"><span class="rank">4</span><span class="name">Navi Mumbai</span></div><span class="val v-mod">145</span></div>
+            <div class="list-row"><div class="list-left"><span class="rank">5</span><span class="name">Akola</span></div><span class="val v-mod">142</span></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Top 5 cleanest right now</div>
+            <div class="list-row"><div class="list-left"><span class="rank">1</span><span class="name">Sindhudurg</span></div><span class="val v-good">48</span></div>
+            <div class="list-row"><div class="list-left"><span class="rank">2</span><span class="name">Ratnagiri</span></div><span class="val v-good">56</span></div>
+            <div class="list-row"><div class="list-left"><span class="rank">3</span><span class="name">Sangli</span></div><span class="val v-good">68</span></div>
+            <div class="list-row"><div class="list-left"><span class="rank">4</span><span class="name">Kolhapur</span></div><span class="val v-sat">72</span></div>
+            <div class="list-row"><div class="list-left"><span class="rank">5</span><span class="name">Nashik</span></div><span class="val v-sat">88</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>Aira AI — Settings — General</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --good: #009966; --sat: #1ea175; --mod: #ffc400; --poor: #ff8c00;
+    --vpoor: #dc3545; --severe: #7a0c28;
+    --primary: #0f4c75; --accent: #00a896;
+    --accent-tint: rgba(0,168,150,0.12);
+    --page: #f8fafc; --card: #ffffff;
+    --text-1: #111827; --text-2: #4b5563; --text-muted: #94a3b8;
+    --border: #e2e8f0;
+    --warn-bg: #fff4dc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--page); }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-1); font-size: 15px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { width: 1440px; margin: 0 auto; background: var(--page); }
+
+  .nav {
+    height: 80px; padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--card); border-bottom: 1px solid var(--border);
+  }
+  .brand { font-size: 22px; font-weight: 700; color: var(--primary); letter-spacing: -0.01em; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 15px; font-weight: 500; color: var(--text-2); text-decoration: none; }
+  .nav-links a.active { color: var(--text-1); font-weight: 600; }
+  .nav-divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+  .nav-secondary { font-size: 13px !important; font-weight: 500; color: var(--text-muted) !important; padding: 8px 12px; border-radius: 8px; }
+  .nav-secondary:hover { background: var(--page); color: var(--text-2) !important; }
+  .nav-secondary.active { color: var(--text-2) !important; font-weight: 600 !important; background: var(--page); }
+  .nav-cta {
+    margin-left: 16px; padding: 10px 18px;
+    background: var(--primary); color: #ffffff !important;
+    border-radius: 8px; font-size: 14px; font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .nav-cta:hover { background: #0c3e5e; }
+  .nav-link-settings {
+    margin-left: 4px; padding: 8px 14px;
+    border-radius: 8px; font-size: 14px; font-weight: 500;
+    color: var(--text-2); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-link-settings:hover { background: var(--page); color: var(--text-1); }
+  .nav-link-settings.active { color: var(--text-1); font-weight: 600; background: var(--page); }
+
+  .container { padding: 32px 48px 64px; }
+  .crumb { display: flex; gap: 8px; align-items: center; padding: 24px 0 0; font-size: 13px; font-weight: 500; color: var(--text-muted); }
+  .crumb a { color: var(--text-muted); text-decoration: none; }
+  .crumb .current { color: var(--text-2); }
+
+  .settings-head { display: flex; justify-content: space-between; align-items: flex-end; margin: 16px 0 32px; }
+  .settings-head h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-1); }
+  .settings-head p { font-size: 14px; color: var(--text-2); margin-top: 8px; max-width: 720px; }
+  .save-row { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text-muted); }
+  .save-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
+  .save-text { font-weight: 500; color: var(--text-2); }
+
+  .layout { display: grid; grid-template-columns: 240px 1fr; gap: 32px; align-items: flex-start; }
+
+  .sidebar {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 12px;
+    position: sticky; top: 24px;
+  }
+  .side-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 14px; font-weight: 500; color: var(--text-2);
+    cursor: pointer; text-decoration: none;
+  }
+  .side-item:hover { background: var(--page); color: var(--text-1); }
+  .side-item.active { background: var(--accent-tint); color: var(--primary); font-weight: 600; }
+  .side-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* MAIN PANEL */
+  .panel {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+  .panel-head {
+    padding: 20px 24px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .panel-title { font-size: 17px; font-weight: 600; color: var(--text-1); margin-bottom: 4px; }
+  .panel-sub { font-size: 13px; color: var(--text-2); }
+  .panel-body { padding: 16px 24px 24px; }
+
+  .row {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 24px; align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .row:last-child { border-bottom: none; padding-bottom: 0; }
+  .row-label { font-size: 14px; font-weight: 500; color: var(--text-1); }
+  .row-hint { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+
+  .segmented { display: inline-flex; background: var(--page); border: 1px solid var(--border); border-radius: 10px; padding: 3px; }
+  .seg-item { padding: 7px 14px; border-radius: 7px; font-size: 13px; font-weight: 500; color: var(--text-2); cursor: pointer; }
+  .seg-item.active { background: var(--card); color: var(--text-1); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  /* v1.2: area pill replaces the in-place city <select> */
+  .area-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 8px 8px 16px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 999px;
+  }
+  .area-pill-text { font-size: 13px; font-weight: 600; color: var(--text-1); }
+  .area-pill-link {
+    padding: 6px 12px; background: var(--accent); color: #ffffff;
+    border-radius: 999px; font-size: 12px; font-weight: 600;
+    text-decoration: none;
+  }
+  .area-pill-link:hover { background: #008c7e; }
+  /* v1.2: locked metric label */
+  .metric-locked {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 12px; background: var(--page); border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .metric-locked-text { font-size: 13px; font-weight: 600; color: var(--text-2); }
+  .metric-locked-hint { font-size: 11px; color: var(--text-muted); }
+  /* v1.2: nav profile menu button */
+  .nav-profile-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-left: 4px; padding: 4px 10px 4px 4px;
+    background: transparent; border: 1px solid var(--border); border-radius: 999px;
+    color: var(--text-1); font-size: 13px; font-weight: 500; cursor: pointer;
+  }
+  .nav-profile-btn:hover { background: var(--page); }
+  .nav-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #0f4c75 0%, #00a896 100%);
+    color: #ffffff; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .toggle { position: relative; width: 40px; height: 24px; background: var(--border); border-radius: 999px; cursor: pointer; transition: background 0.15s; }
+  .toggle.on { background: var(--accent); }
+  .toggle-knob { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: left 0.15s; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .toggle.on .toggle-knob { left: 18px; }
+
+  .select { padding: 8px 12px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; color: var(--text-1); font-weight: 500; cursor: pointer; min-width: 200px; }
+  .select:focus { outline: none; border-color: var(--accent); }
+
+  .v2-callout {
+    background: var(--warn-bg);
+    border: 1px solid #f0d690;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex; gap: 12px; align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .v2-icon { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--poor); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+  .v2-body { font-size: 13px; line-height: 1.5; color: var(--text-2); }
+  .v2-body strong { color: var(--text-1); font-weight: 600; }
+  .v2-body a { color: var(--accent); text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav">
+      <div class="brand">Aira AI</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">City</a>
+        <a href="#">Compare</a>
+        <a href="#">Map</a>
+        <a href="#">Advisory</a>
+        <span class="nav-divider"></span>
+        <a href="#" class="nav-secondary">Methodology</a>
+        <a href="#" class="nav-secondary">Help</a>
+        <a href="#" class="nav-link-settings active">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+        <a href="#" class="nav-profile-btn">
+          <div class="nav-avatar">H</div>
+          Harish
+        </a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="crumb">
+        <a href="#">Home</a>
+        <span>/</span>
+        <a href="#">Settings</a>
+        <span>/</span>
+        <span class="current">General</span>
+      </div>
+
+      <div class="settings-head">
+        <div>
+          <h1>General</h1>
+          <p>Default city, units, and display preferences. Changes save automatically to this browser.</p>
+        </div>
+        <div class="save-row">
+          <div class="save-dot"></div>
+          <span class="save-text">All changes saved</span>
+        </div>
+      </div>
+
+      <div class="v2-callout">
+        <div class="v2-icon">i</div>
+        <div class="v2-body">
+          <strong>You're not signed in.</strong> Your preferences are saved only in this browser. <a href="#">Sign in</a> to sync them across devices and unlock threshold alerts.
+        </div>
+      </div>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <a href="#" class="side-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Account
+          </a>
+          <a href="#" class="side-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            General
+          </a>
+          <a href="#" class="side-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+            Health profile
+          </a>
+          <a href="#" class="side-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3z"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Alerts
+          </a>
+          <a href="#" class="side-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            About
+          </a>
+        </aside>
+
+        <main>
+          <section class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Default area</div>
+              <div class="panel-sub">Pre-selected when you open the app. 28 places across Maharashtra.</div>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div>
+                  <div class="row-label">Current area</div>
+                  <div class="row-hint">Used on the home page and as the fallback for forecasts and advisories.</div>
+                </div>
+                <div class="area-pill">
+                  <span class="area-pill-text">Maharashtra · Mumbai · Borivali</span>
+                  <a href="#" class="area-pill-link">Change area &rarr;</a>
+                </div>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="row-label">Reset to Borivali</div>
+                  <div class="row-hint">Set your default area back to the Borivali starter location.</div>
+                </div>
+                <a href="#" class="btn-link">Reset</a>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Appearance</div>
+              <div class="panel-sub">Theme. Light is the default. No third "Auto" option — pick what you want, end of story.</div>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div>
+                  <div class="row-label">Theme</div>
+                  <div class="row-hint">Saved to your account. Switches instantly with a 200ms cross-fade.</div>
+                </div>
+                <div class="segmented">
+                  <div class="seg-item active">Light</div>
+                  <div class="seg-item">Dark</div>
+                </div>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="row-label">Units</div>
+                  <div class="row-hint">Pollutant concentrations in micrograms per cubic metre. Imperial coming in v2.</div>
+                </div>
+                <div class="metric-locked">
+                  <span class="metric-locked-text">Metric</span>
+                  <span class="metric-locked-hint">Locked in v1</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Notifications</div>
+              <div class="panel-sub">How Aira tells you about AQI changes.</div>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div>
+                  <div class="row-label">In-app indicator</div>
+                  <div class="row-hint">A small badge on the nav when AQI crosses your threshold. Works only while the tab is open.</div>
+                </div>
+                <div class="toggle on"><div class="toggle-knob"></div></div>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="row-label">Email me when AQI crosses my threshold</div>
+                  <div class="row-hint">Subject: "🌫️ AQI just crossed [N] in [Place]". Up to 2 emails per day.</div>
+                </div>
+                <div class="toggle on"><div class="toggle-knob"></div></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Data visualisation</div>
+              <div class="panel-sub">What to show on the city and forecast pages.</div>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div>
+                  <div class="row-label">Show confidence band on forecast</div>
+                  <div class="row-hint">Visualises the regression's standard error as a shaded area around the line.</div>
+                </div>
+                <div class="toggle on"><div class="toggle-knob"></div></div>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="row-label">Show pollutant breakdown on city pages</div>
+                  <div class="row-hint">PM2.5, PM10, NO2, SO2, CO, O3 with per-pollutant AQI colour.</div>
+                </div>
+                <div class="toggle on"><div class="toggle-knob"></div></div>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="row-label">Show day-by-day forecast cards</div>
+                  <div class="row-hint">Seven AQI cards below the chart with per-day bucket colour.</div>
+                </div>
+                <div class="toggle on"><div class="toggle-knob"></div></div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

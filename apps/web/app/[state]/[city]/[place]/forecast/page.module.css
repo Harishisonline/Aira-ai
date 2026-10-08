@@ -1,0 +1,94 @@
+.main { padding: 0 48px 64px; max-width: 1440px; margin: 0 auto; }
+.crumb { display: flex; gap: 8px; align-items: center; padding: 24px 0 0; font-size: 13px; font-weight: 500; color: var(--text-muted); }
+.crumb a { color: var(--text-muted); text-decoration: none; }
+.current { color: var(--text-2); }
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 16px 0 24px;
+}
+.h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-1); margin: 0; }
+.headerSub { font-size: 14px; line-height: 1.5; color: var(--text-2); margin: 8px 0 0; max-width: 720px; }
+
+.chartCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+.chartHead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
+.legend { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.legendItem { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--text-2); }
+.legendDot { width: 10px; height: 10px; border-radius: 50%; }
+.legendBand { background: rgba(0, 168, 150, 0.5); }
+.r2 { font-size: 13px; font-weight: 500; color: var(--text-2); }
+.r2 strong { color: var(--text-1); font-weight: 600; }
+
+.dayLabels {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0 32px 8px;
+}
+.dayLabels span { text-align: center; font-size: 11px; font-weight: 500; color: var(--text-muted); }
+
+.plot {
+  position: relative;
+  background: var(--bg-page);
+  border-radius: 12px;
+  height: 320px;
+  overflow: hidden;
+}
+.band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-2);
+  letter-spacing: 0.06em;
+}
+.bandGood { top: 0; background: rgba(0, 153, 102, 0.10); }
+.bandSat { top: 64px; background: rgba(30, 161, 117, 0.10); }
+.bandMod { top: 128px; background: rgba(255, 196, 0, 0.12); }
+.bandPoor { top: 192px; background: rgba(255, 140, 0, 0.12); }
+.bandVpoor { top: 256px; background: rgba(220, 53, 69, 0.12); }
+
+.svg { position: absolute; inset: 0; width: 100%; height: 320px; }
+.lineHist { fill: none; stroke: var(--mod); stroke-width: 2.5; }
+.lineFcst { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+.grid { stroke: var(--border); stroke-width: 1; }
+.sep { stroke: var(--border-strong); stroke-width: 1; stroke-dasharray: 4 4; }
+
+.days { margin-top: 24px; }
+.daysH2 { font-size: 20px; font-weight: 600; color: var(--text-1); margin-bottom: 16px; }
+.daysGrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
+.dayCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+.dayName { font-size: 12px; font-weight: 600; color: var(--text-2); }
+.dayDate { font-size: 11px; font-weight: 400; color: var(--text-muted); }
+.dayVal { font-size: 28px; font-weight: 700; line-height: 1.1; }
+.dayLbl { font-size: 10px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.1em; }
+
+@media (max-width: 900px) {
+  .main { padding: 0 20px 48px; }
+  .daysGrid { grid-template-columns: repeat(2, 1fr); }
+  .head { flex-direction: column; }
+}

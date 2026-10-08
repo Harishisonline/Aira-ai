@@ -1,0 +1,19 @@
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
+}
+
+.mark:hover { text-decoration: none; }
+
+.icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
+}

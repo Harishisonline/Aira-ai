@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>Aira AI — Settings — Alerts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --good: #009966; --sat: #1ea175; --mod: #ffc400; --poor: #ff8c00;
+    --vpoor: #dc3545; --severe: #7a0c28;
+    --primary: #0f4c75; --accent: #00a896;
+    --accent-tint: rgba(0,168,150,0.12);
+    --page: #f8fafc; --card: #ffffff;
+    --text-1: #111827; --text-2: #4b5563; --text-muted: #94a3b8;
+    --border: #e2e8f0;
+    --warn-bg: #fff4dc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--page); }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--text-1); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .page { width: 1440px; margin: 0 auto; background: var(--page); }
+  .nav { height: 80px; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; background: var(--card); border-bottom: 1px solid var(--border); }
+  .brand { font-size: 22px; font-weight: 700; color: var(--primary); letter-spacing: -0.01em; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 15px; font-weight: 500; color: var(--text-2); text-decoration: none; }
+  .nav-links a.active { color: var(--text-1); font-weight: 600; }
+  .nav-divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+  .nav-secondary { font-size: 13px !important; font-weight: 500; color: var(--text-muted) !important; padding: 8px 12px; border-radius: 8px; }
+  .nav-secondary:hover { background: var(--page); color: var(--text-2) !important; }
+  .nav-secondary.active { color: var(--text-2) !important; font-weight: 600 !important; background: var(--page); }
+  .nav-cta { margin-left: 16px; padding: 10px 18px; background: var(--primary); color: #ffffff !important; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-block; }
+  .nav-profile-btn { display: inline-flex; align-items: center; gap: 8px; margin-left: 4px; padding: 4px 10px 4px 4px; background: transparent; border: 1px solid var(--border); border-radius: 999px; color: var(--text-1); font-size: 13px; font-weight: 500; cursor: pointer; }
+  .nav-profile-btn:hover { background: var(--page); }
+  .nav-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #0f4c75 0%, #00a896 100%); color: #ffffff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .nav-link-settings { margin-left: 4px; padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--text-2); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+  .nav-link-settings.active { color: var(--text-1); font-weight: 600; background: var(--page); }
+  .container { padding: 32px 48px 64px; }
+  .crumb { display: flex; gap: 8px; align-items: center; padding: 24px 0 0; font-size: 13px; font-weight: 500; color: var(--text-muted); }
+  .crumb a { color: var(--text-muted); text-decoration: none; }
+  .crumb .current { color: var(--text-2); }
+  .settings-head { margin: 16px 0 32px; }
+  .settings-head h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-1); }
+  .settings-head p { font-size: 14px; color: var(--text-2); margin-top: 8px; max-width: 720px; }
+  .layout { display: grid; grid-template-columns: 240px 1fr; gap: 32px; align-items: flex-start; }
+  .sidebar { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 12px; position: sticky; top: 24px; }
+  .side-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--text-2); cursor: pointer; text-decoration: none; }
+  .side-item:hover { background: var(--page); color: var(--text-1); }
+  .side-item.active { background: var(--accent-tint); color: var(--primary); font-weight: 600; }
+  .side-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 16px; }
+  .panel-head { padding: 20px 24px 12px; border-bottom: 1px solid var(--border); }
+  .panel-title { font-size: 17px; font-weight: 600; color: var(--text-1); margin-bottom: 4px; }
+  .email-channel-pill { display: inline-flex; align-items: center; gap: 8px; padding: 7px 7px 7px 12px; background: var(--page); border: 1px solid var(--border); border-radius: 999px; color: var(--text-1); }
+  .email-channel-pill svg { color: var(--accent); }
+  .email-channel-text { font-size: 13px; font-weight: 600; }
+  .email-channel-badge { padding: 3px 8px; background: rgba(0,168,150,0.10); color: #006b5d; border-radius: 4px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+  .cap-card { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: var(--page); border: 1px solid var(--border); border-radius: 12px; }
+  .cap-icon { width: 40px; height: 40px; background: rgba(0,168,150,0.10); color: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .cap-body { flex: 1; }
+  .cap-title { font-size: 14px; font-weight: 600; color: var(--text-1); margin-bottom: 4px; }
+  .cap-text { font-size: 13px; line-height: 1.5; color: var(--text-2); }
+  .recent-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .recent-row:last-child { border-bottom: none; }
+  .recent-kind { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; flex-shrink: 0; }
+  .kind-threshold { background: rgba(255,140,0,0.10); color: #b06000; }
+  .kind-scheduled { background: rgba(0,168,150,0.10); color: #006b5d; }
+  .recent-info { flex: 1; }
+  .recent-subject { font-size: 13px; font-weight: 600; color: var(--text-1); }
+  .recent-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .recent-status { font-size: 11px; font-weight: 600; color: var(--accent); }
+  .panel-sub { font-size: 13px; color: var(--text-2); }
+  .panel-body { padding: 16px 24px 24px; }
+  .row { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .row:last-child { border-bottom: none; padding-bottom: 0; }
+  .row-label { font-size: 14px; font-weight: 500; color: var(--text-1); }
+  .row-hint { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+  .toggle { position: relative; width: 40px; height: 24px; background: var(--border); border-radius: 999px; cursor: pointer; }
+  .toggle.on { background: var(--accent); }
+  .toggle-knob { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: left 0.15s; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .toggle.on .toggle-knob { left: 18px; }
+  .select { padding: 8px 12px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; color: var(--text-1); font-weight: 500; cursor: pointer; min-width: 200px; }
+  .select:disabled { background: var(--page); color: var(--text-muted); cursor: not-allowed; }
+
+  .threshold-card { display: flex; align-items: center; gap: 16px; padding: 16px; background: var(--page); border: 1px solid var(--border); border-radius: 12px; }
+  .threshold-num { font-size: 28px; font-weight: 700; color: var(--poor); letter-spacing: -0.02em; }
+  .threshold-meta { font-size: 13px; color: var(--text-2); }
+  .bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 999px; position: relative; }
+  .bar-fill { position: absolute; left: 0; top: 0; height: 100%; background: linear-gradient(90deg, var(--good) 0%, var(--mod) 50%, var(--poor) 80%, var(--vpoor) 100%); border-radius: 999px; }
+  .bar-pin { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 16px; height: 16px; background: #fff; border: 3px solid var(--primary); border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+
+  .channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+  .channel { padding: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .channel.active { border-color: var(--accent); background: var(--accent-tint); }
+  .channel.locked { opacity: 0.6; }
+  .channel-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--page); display: flex; align-items: center; justify-content: center; color: var(--text-2); }
+  .channel.active .channel-icon { background: var(--accent); color: #fff; }
+  .channel-name { font-size: 14px; font-weight: 600; color: var(--text-1); }
+  .channel-desc { font-size: 12px; color: var(--text-2); }
+  .channel-tag { font-size: 10px; font-weight: 700; color: var(--accent); background: var(--card); padding: 2px 6px; border-radius: 4px; align-self: flex-start; letter-spacing: 0.06em; }
+
+  .v2-callout { background: var(--warn-bg); border: 1px solid #f0d690; border-radius: 12px; padding: 16px 20px; display: flex; gap: 12px; align-items: flex-start; margin-bottom: 24px; }
+  .v2-icon { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--poor); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+  .v2-body { font-size: 13px; line-height: 1.5; color: var(--text-2); }
+  .v2-body strong { color: var(--text-1); font-weight: 600; }
+  .v2-body a { color: var(--accent); text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav">
+      <div class="brand">Aira AI</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">City</a>
+        <a href="#">Compare</a>
+        <a href="#">Map</a>
+        <a href="#">Advisory</a>
+        <span class="nav-divider"></span>
+        <a href="#" class="nav-secondary">Methodology</a>
+        <a href="#" class="nav-secondary">Help</a>
+        <a href="#" class="nav-link-settings active">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+        <a href="#" class="nav-profile-btn">
+          <div class="nav-avatar">H</div>
+          Harish
+        </a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="crumb">
+        <a href="#">Home</a>
+        <span>/</span>
+        <a href="#">Settings</a>
+        <span>/</span>
+        <span class="current">Alerts</span>
+      </div>
+
+      <div class="settings-head">
+        <h1>Alerts</h1>
+        <p>Get notified when AQI in your default city crosses a threshold you care about. Per-profile thresholds and channel delivery are available after sign-in in v2.</p>
+      </div>
+
+      <div class="v2-callout">
+        <div class="v2-icon">i</div>
+        <div class="v2-body">
+          <strong>Alerts are preview-only in v1.</strong> You can configure thresholds below and they will be saved in this browser, but they will not actually send notifications until you <a href="#">sign in</a> and the v2 backend is live.
+        </div>
+      </div>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <a href="#" class="side-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Account
+          </a>
+          <a href="#" class="side-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            General
+          </a>
+          <a href="#" class="side-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+            Health profile
+          </a>
+          <a href="#" class="side-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3z"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Alerts
+          </a>
+          <a href="#" class="side-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            About
+          </a>
+        </aside>
+
+        <main>
+          <section class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Email channel</div>
+              <div class="panel-sub">Aira sends alerts to your registered email. No browser push, no SMS in v1.</div>
+            </div>
+            <div class="panel-body">
+              <div class="row" style="padding: 0;">
+                <div>
+                  <div class="row-label">Send alerts to</div>
+                  <div class="row-hint">Subject lines: "🌫️ AQI just crossed [N] in [Place]" for threshold, "📬 AQI update for [Place] you asked for" for scheduled.</div>
+                </div>
+                <div class="email-channel-pill">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <span class="email-channel-text">harish@example.com</span>
+                  <span class="email-channel-badge">Verified</span>
+                </div>
+              </div>
+              <div class="row" style="padding: 0;">
+                <div>
+                  <div class="row-label">Send me email alerts</div>
+                  <div class="row-hint">Master switch. When OFF, no threshold alerts and Aira's chat can't schedule new emails either.</div>
+                </div>
+                <div class="toggle on"><div class="toggle-knob"></div></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Alert threshold</div>
+              <div class="panel-sub">Trigger a warning email when AQI in your default area goes above this value. One email per crossing, not one per reading.</div>
+            </div>
+            <div class="panel-body">
+              <div class="row" style="display:block; padding: 0;">
+                <div class="threshold-card">
+                  <div>
+                    <div class="threshold-num">200</div>
+                    <div class="threshold-meta">AQI in Borivali, Mumbai</div>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" style="width: 100%"></div>
+                    <div class="bar-pin" style="left: 50%"></div>
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; margin-top: 8px; font-size: 11px; color: var(--text-muted); font-weight: 500; text-align: center;">
+                  <span>0<br>Good</span>
+                  <span>100<br>Satisfactory</span>
+                  <span>200<br>Moderate</span>
+                  <span>300<br>Poor</span>
+                  <span>500<br>Severe</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Daily cap</div>
+              <div class="panel-sub">How many emails Aira can send you in one day.</div>
+            </div>
+            <div class="panel-body">
+              <div class="cap-card">
+                <div class="cap-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="cap-body">
+                  <div class="cap-title">Up to 2 emails per day</div>
+                  <div class="cap-text">The 2nd one will include a note about our upcoming subscription tier. After the cap, Aira won't send more until midnight IST. You can still chat, browse, and get threshold alerts the next day.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Recent emails</div>
+              <div class="panel-sub">The last 5 emails Aira sent you. Full history coming in v2.</div>
+            </div>
+            <div class="panel-body">
+              <div class="recent-row">
+                <div class="recent-kind kind-threshold">THRESHOLD</div>
+                <div class="recent-info">
+                  <div class="recent-subject">🌫️ AQI just crossed 200 in Borivali, Mumbai</div>
+                  <div class="recent-meta">Sent 2 days ago, 4:12 PM IST · harish@example.com</div>
+                </div>
+                <span class="recent-status status-sent">Sent</span>
+              </div>
+              <div class="recent-row">
+                <div class="recent-kind kind-scheduled">SCHEDULED</div>
+                <div class="recent-info">
+                  <div class="recent-subject">📬 AQI update for Bandra, Mumbai you asked for</div>
+                  <div class="recent-meta">Sent 4 days ago, 5:00 PM IST · harish@example.com</div>
+                </div>
+                <span class="recent-status status-sent">Sent</span>
+              </div>
+              <div class="recent-row">
+                <div class="recent-kind kind-threshold">THRESHOLD</div>
+                <div class="recent-info">
+                  <div class="recent-subject">🌫️ AQI just crossed 200 in Borivali, Mumbai</div>
+                  <div class="recent-meta">Sent 1 week ago, 7:30 AM IST · harish@example.com</div>
+                </div>
+                <span class="recent-status status-sent">Sent</span>
+              </div>
+            </div>
+          </section>
+
+        </main>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

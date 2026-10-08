@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>Aira AI — Borivali 7-day Forecast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #f8fafc; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #111827; font-size: 15px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { width: 1440px; margin: 0 auto; background: #f8fafc; min-height: 100vh; }
+
+  /* NAV */
+  .nav {
+    height: 80px; padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #ffffff; border-bottom: 1px solid #e2e8f0;
+  }
+  .brand { font-size: 22px; font-weight: 700; color: #0f4c75; letter-spacing: -0.01em; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 15px; font-weight: 500; color: #4b5563; text-decoration: none; }
+  .nav-links a.active { color: #111827; font-weight: 600; }
+  .nav-divider { width: 1px; height: 20px; background: #e2e8f0; margin: 0 4px; }
+  .nav-secondary { font-size: 13px; font-weight: 500; color: #94a3b8; padding: 8px 12px; border-radius: 8px; text-decoration: none; }
+  .nav-secondary:hover { background: #f8fafc; color: #4b5563; }
+  .nav-link-settings {
+    margin-left: 4px; padding: 8px 14px; border-radius: 8px;
+    font-size: 14px; font-weight: 500; color: #4b5563; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-link-settings:hover { background: #f8fafc; color: #111827; }
+  .nav-cta {
+    margin-left: 16px; padding: 10px 18px;
+    background: #0f4c75; color: #ffffff !important; border-radius: 8px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    display: inline-block;
+  }
+  .nav-cta:hover { background: #0c3e5e; }
+
+  /* MAIN CONTAINER */
+  .container { padding: 0 48px 64px; }
+  .crumb {
+    display: flex; gap: 8px; align-items: center;
+    padding: 24px 0 0; font-size: 13px; font-weight: 500; color: #94a3b8;
+  }
+  .crumb a { color: #94a3b8; text-decoration: none; }
+  .crumb .current { color: #4b5563; }
+
+  /* HEADER */
+  .head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; margin: 16px 0 24px;
+  }
+  h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; color: #111827; margin: 0; }
+  .header-sub {
+    font-size: 14px; line-height: 1.5; color: #4b5563;
+    margin: 8px 0 0; max-width: 720px;
+  }
+  .change-location {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    background: #ffffff; border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    font-size: 13px; font-weight: 500; color: #111827;
+    text-decoration: none; cursor: pointer;
+  }
+  .change-location:hover { border-color: #00a896; background: #f8fafc; }
+  .change-location .pin { color: #00a896; }
+  .change-location .chev { color: #94a3b8; }
+
+  /* CHART CARD */
+  .chart-card {
+    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  }
+  .chart-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .chart-legend { display: flex; gap: 16px; align-items: center; }
+  .legend-item {
+    display: flex; gap: 8px; align-items: center;
+    font-size: 13px; font-weight: 500; color: #4b5563;
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .legend-dot.line { background: #00a896; }
+  .legend-dot.band { background: rgba(0,168,150,0.5); }
+  .r2 { font-size: 13px; font-weight: 500; color: #4b5563; }
+  .r2 strong { color: #111827; font-weight: 600; }
+
+  /* DAY LABELS */
+  .days {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    padding: 0 32px 8px;
+  }
+  .days span {
+    text-align: center; font-size: 11px; font-weight: 500; color: #94a3b8;
+  }
+
+  /* PLOT */
+  .plot-wrap {
+    position: relative;
+    background: #f8fafc; border-radius: 12px;
+    height: 320px; padding: 32px;
+  }
+  .band {
+    position: absolute; left: 32px; right: 32px; height: 64px;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 12px;
+    font-size: 10px; font-weight: 600; color: #4b5563;
+    letter-spacing: 0.06em;
+  }
+  .band-good  { top: 0;    background: rgba(0,153,102,0.10); }
+  .band-sat   { top: 64px;  background: rgba(30,161,117,0.10); }
+  .band-mod   { top: 128px; background: rgba(255,196,0,0.12); }
+  .band-poor  { top: 192px; background: rgba(255,140,0,0.12); }
+  .band-vpoor { top: 256px; background: rgba(220,53,69,0.12); }
+
+  svg.plot {
+    position: absolute; left: 32px; right: 32px; top: 0;
+    width: calc(100% - 64px); height: 320px;
+  }
+  svg .gridline { stroke: #e2e8f0; stroke-width: 1; }
+  svg .label { font-family: 'Inter'; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; }
+  svg .label.muted  { fill: #94a3b8; }
+  svg .label.accent { fill: #00a896; }
+  svg .sepline { stroke: #cbd5e1; stroke-width: 1; stroke-dasharray: 4 4; }
+  svg .dot { fill: #ffc400; }
+  svg .dot.fc { fill: #00a896; stroke: #ffffff; stroke-width: 2; }
+  svg .line-hist { fill: none; stroke: #ffc400; stroke-width: 2.5; }
+  svg .line-fcst { fill: none; stroke: #00a896; stroke-width: 2.5; stroke-dasharray: 5 3; }
+
+  /* CALLOUT */
+  .callout {
+    margin-top: 24px;
+    background: rgba(0,168,150,0.10);
+    border: 1px solid rgba(0,168,150,0.2);
+    border-radius: 12px;
+    padding: 24px 28px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .callout-eyebrow {
+    font-size: 11px; font-weight: 600; color: #00a896;
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .callout-text {
+    font-size: 15px; line-height: 1.6; color: #111827;
+  }
+
+  /* DAY-BY-DAY */
+  .day-section { margin-top: 24px; }
+  .day-head {
+    font-size: 20px; font-weight: 600; color: #111827; margin-bottom: 16px;
+  }
+  .day-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px;
+  }
+  .day-card {
+    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 16px 12px; text-align: center;
+    display: flex; flex-direction: column; gap: 4px; align-items: center;
+  }
+  .day-card .name { font-size: 12px; font-weight: 600; color: #4b5563; }
+  .day-card .date { font-size: 11px; font-weight: 400; color: #94a3b8; }
+  .day-card .val { font-size: 28px; font-weight: 700; }
+  .day-card .lbl { font-size: 10px; font-weight: 500; color: #94a3b8; letter-spacing: 0.1em; }
+  .val.good   { color: #009966; }
+  .val.sat    { color: #1ea175; }
+  .val.mod    { color: #d97706; }
+  .val.poor   { color: #ff8c00; }
+  .val.vpoor  { color: #dc3545; }
+</style>
+</head>
+<body>
+  <div class="page">
+
+    <nav class="nav">
+      <div class="brand">Aira AI</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">City</a>
+        <a href="#">Compare</a>
+        <a href="#">Map</a>
+        <a href="#">Advisory</a>
+        <span class="nav-divider"></span>
+        <a href="#" class="nav-secondary">Methodology</a>
+        <a href="#" class="nav-secondary">Help</a>
+        <a href="#" class="nav-link-settings">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 9 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+        <a href="#" class="nav-cta">Sign in</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="crumb">
+        <a href="#">Home</a>
+        <span>/</span>
+        <a href="#">Mumbai</a>
+        <span>/</span>
+        <a href="#">Borivali</a>
+        <span>/</span>
+        <span class="current">Forecast</span>
+      </div>
+
+      <div class="head">
+        <div>
+          <h1>7-day AQI forecast for Borivali</h1>
+          <p class="header-sub">Predicted from the last 30 days using linear regression. Confidence band shows 1 standard error.</p>
+        </div>
+        <a href="#" class="change-location">
+          <svg class="pin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Change location
+          <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head">
+          <div class="chart-legend">
+            <div class="legend-item"><span class="legend-dot line"></span>Predicted AQI</div>
+            <div class="legend-item"><span class="legend-dot band"></span>Confidence band</div>
+          </div>
+          <div class="r2">Model fit (R-squared): <strong>0.62</strong></div>
+        </div>
+
+        <div class="days">
+          <span>Dec 23</span><span>Dec 28</span><span>Jan 2</span><span>Jan 7</span>
+          <span>Jan 12</span><span>Jan 18</span><span>Jan 22</span>
+        </div>
+
+        <div class="plot-wrap">
+          <div class="band band-good">GOOD</div>
+          <div class="band band-sat">SAT</div>
+          <div class="band band-mod">MOD</div>
+          <div class="band band-poor">POOR</div>
+          <div class="band band-vpoor">V POOR</div>
+
+          <svg class="plot" viewBox="0 0 1280 320" preserveAspectRatio="none">
+            <line class="gridline" x1="0" y1="64"  x2="1280" y2="64"  />
+            <line class="gridline" x1="0" y1="128" x2="1280" y2="128" />
+            <line class="gridline" x1="0" y1="192" x2="1280" y2="192" />
+            <line class="gridline" x1="0" y1="256" x2="1280" y2="256" />
+
+            <text class="label muted"  x="0"   y="14">PAST 30 DAYS</text>
+            <text class="label accent" x="900" y="14">FORECAST</text>
+            <line class="sepline" x1="884" y1="0" x2="884" y2="320" />
+
+            <path class="line-hist"
+              d="M 20 220 L 60 210 L 100 200 L 140 215 L 180 225 L 220 210 L 260 195 L 300 205 L 340 215 L 380 225 L 420 205 L 460 195 L 500 200 L 540 215 L 580 225 L 620 210 L 660 200 L 700 210 L 740 220 L 780 225 L 820 230 L 860 225 L 900 230" />
+
+            <path class="line-fcst"
+              d="M 900 230 L 940 220 L 980 200 L 1020 175 L 1060 165 L 1100 175 L 1140 200 L 1180 215 L 1220 225" />
+
+            <circle class="dot" cx="20"   cy="220" r="4" />
+            <circle class="dot" cx="60"   cy="210" r="4" />
+            <circle class="dot" cx="100"  cy="200" r="4" />
+            <circle class="dot" cx="140"  cy="215" r="4" />
+            <circle class="dot" cx="180"  cy="225" r="4" />
+            <circle class="dot" cx="220"  cy="210" r="4" />
+            <circle class="dot" cx="260"  cy="195" r="4" />
+            <circle class="dot" cx="300"  cy="205" r="4" />
+            <circle class="dot" cx="340"  cy="215" r="4" />
+            <circle class="dot" cx="380"  cy="225" r="4" />
+            <circle class="dot" cx="420"  cy="205" r="4" />
+            <circle class="dot" cx="460"  cy="195" r="4" />
+            <circle class="dot" cx="500"  cy="200" r="4" />
+            <circle class="dot" cx="540"  cy="215" r="4" />
+            <circle class="dot" cx="580"  cy="225" r="4" />
+            <circle class="dot" cx="620"  cy="210" r="4" />
+            <circle class="dot" cx="660"  cy="200" r="4" />
+            <circle class="dot" cx="700"  cy="210" r="4" />
+            <circle class="dot" cx="740"  cy="220" r="4" />
+            <circle class="dot" cx="780"  cy="225" r="4" />
+            <circle class="dot" cx="820"  cy="230" r="4" />
+            <circle class="dot" cx="860"  cy="225" r="4" />
+
+            <circle class="dot fc" cx="900"  cy="230" r="5" />
+            <circle class="dot fc" cx="940"  cy="220" r="5" />
+            <circle class="dot fc" cx="980"  cy="200" r="5" />
+            <circle class="dot fc" cx="1020" cy="175" r="5" />
+            <circle class="dot fc" cx="1060" cy="165" r="5" />
+            <circle class="dot fc" cx="1100" cy="175" r="5" />
+            <circle class="dot fc" cx="1140" cy="200" r="5" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-eyebrow">Plain English</div>
+        <p class="callout-text">Borivali air will stay in the Moderate range for the next 3 days, then climb into Poor on Friday (AQI around 165) before easing back to Moderate by Sunday. Borivali typically runs 20-30 points cleaner than Bandra because it's farther from the main traffic corridors. Good window for outdoor activity: Saturday morning before 9am.</p>
+      </div>
+
+      <section class="day-section">
+        <h2 class="day-head">Day-by-day</h2>
+        <div class="day-grid">
+          <div class="day-card"><span class="name">Today</span><span class="date">Jan 15</span><span class="val mod">142</span><span class="lbl">AQI</span></div>
+          <div class="day-card"><span class="name">Thu</span><span class="date">Jan 16</span><span class="val mod">148</span><span class="lbl">AQI</span></div>
+          <div class="day-card"><span class="name">Fri</span><span class="date">Jan 17</span><span class="val mod">155</span><span class="lbl">AQI</span></div>
+          <div class="day-card"><span class="name">Sat</span><span class="date">Jan 18</span><span class="val poor">165</span><span class="lbl">AQI</span></div>
+          <div class="day-card"><span class="name">Sun</span><span class="date">Jan 19</span><span class="val mod">158</span><span class="lbl">AQI</span></div>
+          <div class="day-card"><span class="name">Mon</span><span class="date">Jan 20</span><span class="val mod">135</span><span class="lbl">AQI</span></div>
+          <div class="day-card"><span class="name">Tue</span><span class="date">Jan 21</span><span class="val mod">145</span><span class="lbl">AQI</span></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

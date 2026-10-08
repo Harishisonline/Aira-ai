@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>Aira AI — Methodology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --good:        #009966;
+    --sat:         #1ea175;
+    --mod:         #ffc400;
+    --poor:        #ff8c00;
+    --vpoor:       #dc3545;
+    --severe:      #7a0c28;
+    --primary:     #0f4c75;
+    --accent:      #00a896;
+    --accent-tint: rgba(0,168,150,0.12);
+    --page:        #f8fafc;
+    --card:        #ffffff;
+    --code-bg:     #f1f5f9;
+    --text-1:      #111827;
+    --text-2:      #4b5563;
+    --text-muted:  #94a3b8;
+    --border:      #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--page); }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-1);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    width: 1440px;
+    margin: 0 auto;
+    background: var(--page);
+  }
+
+  /* NAV */
+  .nav {
+    height: 80px;
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.01em;
+  }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+  .nav-secondary { font-size: 13px !important; font-weight: 500; color: var(--text-muted) !important; padding: 8px 12px; border-radius: 8px; }
+  .nav-secondary:hover { background: var(--page); color: var(--text-2) !important; }
+  .nav-secondary.active { color: var(--text-2) !important; font-weight: 600 !important; background: var(--page); }
+  .nav-links a {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .nav-links a.active { color: var(--text-1); font-weight: 600; }
+  .nav-cta {
+    margin-left: 16px; padding: 10px 18px;
+    background: var(--primary); color: #ffffff !important;
+    border-radius: 8px; font-size: 14px; font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .nav-cta:hover { background: #0c3e5e; }
+  .nav-link-settings {
+    margin-left: 4px; padding: 8px 14px;
+    border-radius: 8px; font-size: 14px; font-weight: 500;
+    color: var(--text-2); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-link-settings:hover { background: var(--page); color: var(--text-1); }
+  .nav-link-settings.active { color: var(--text-1); font-weight: 600; background: var(--page); }
+
+  /* ARTICLE LAYOUT — narrower for readability */
+  .article {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 48px 64px;
+  }
+
+  /* HEADER */
+  .header { margin-bottom: 48px; }
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text-1);
+    margin-bottom: 20px;
+  }
+  .header .lede {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-2);
+    max-width: 720px;
+  }
+
+  /* SECTIONS */
+  .section { margin-bottom: 32px; }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .section h2 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-1);
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .section p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-2);
+  }
+  .section + .section { margin-top: 56px; }
+
+  /* CODE BLOCK */
+  .code-wrap { margin: 32px 0; }
+  .code-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .code {
+    background: var(--code-bg);
+    border-radius: 12px;
+    padding: 22px 26px;
+    font-family: 'JetBrains Mono', 'Courier Prime', Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-1);
+    overflow-x: auto;
+  }
+  .code .line { white-space: pre; }
+  .code .line.comment { color: var(--text-muted); }
+
+  /* FORMULA */
+  .formula {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 24px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-1);
+  }
+  .formula .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* BUCKET TABLE */
+  .buckets {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 16px 0 24px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card);
+  }
+  .buckets th, .buckets td {
+    padding: 12px 18px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .buckets th {
+    font-weight: 600;
+    color: var(--text-1);
+    background: var(--code-bg);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .buckets tr:last-child td { border-bottom: none; }
+  .bucket-dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  /* SOURCES */
+  .sources {
+    margin-top: 56px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+  .sources .label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .sources ul { list-style: none; }
+  .sources li {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-2);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .sources li:last-child { border-bottom: none; }
+  .sources li::before {
+    content: '- ';
+    color: var(--text-muted);
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 64px;
+    padding: 32px 48px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13px;
+    text-align: center;
+  }
+  .footer a { color: var(--accent); text-decoration: none; font-weight: 500; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="brand">Aira AI</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">City</a>
+        <a href="#">Compare</a>
+        <a href="#">Map</a>
+        <a href="#">Advisory</a>
+        <span class="nav-divider"></span>
+        <a href="#" class="nav-secondary active">Methodology</a>
+        <a href="#" class="nav-secondary">Help</a>
+        <a href="#settings" class="nav-link-settings">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+        <a href="#" class="nav-cta">Sign in</a>
+      </div>
+    </nav>
+
+    <article class="article">
+
+      <header class="header">
+        <div class="eyebrow">Methodology</div>
+        <h1>How Aira AI computes AQI and forecasts it</h1>
+        <p class="lede">A transparent breakdown of the data sources, math, and assumptions. v1 model. Last reviewed 14 Jan 2026.</p>
+      </header>
+
+      <section class="section">
+        <div class="section-eyebrow">Section 1</div>
+        <h2>Data source: Central Pollution Control Board</h2>
+        <p>Every reading on Aira AI comes from the CPCB Continuous Ambient Air Quality Monitoring System (CAAQMS). The network has 28 active stations across Maharashtra as of January 2026. We pull hourly readings via the official CCR API. The data is owned by CPCB and the Government of India; Aira AI does not modify, average, or re-publish raw measurements.</p>
+      </section>
+
+      <section class="section">
+        <div class="section-eyebrow">Section 2</div>
+        <h2>AQI: the Indian National AQI formula</h2>
+        <p>We use the official NAQI computation, not the US EPA formula. The NAQI assigns sub-indices to PM2.5, PM10, NO2, SO2, CO, and O3, each with pollutant-specific breakpoints. The reported AQI is the maximum of all available sub-indices for the station at that time.</p>
+
+        <div class="formula">
+          <div class="label">AQI computation</div>
+          AQI = max(I<sub>PM2.5</sub>, I<sub>PM10</sub>, I<sub>NO2</sub>, I<sub>SO2</sub>, I<sub>CO</sub>, I<sub>O3</sub>)
+        </div>
+
+        <table class="buckets">
+          <thead>
+            <tr>
+              <th>Bucket</th>
+              <th>AQI range</th>
+              <th>Health implication</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="bucket-dot" style="background:var(--good)"></span>Good</td>
+              <td>0 – 50</td>
+              <td>Minimal impact</td>
+            </tr>
+            <tr>
+              <td><span class="bucket-dot" style="background:var(--sat)"></span>Satisfactory</td>
+              <td>51 – 100</td>
+              <td>Minor breathing discomfort for very sensitive people</td>
+            </tr>
+            <tr>
+              <td><span class="bucket-dot" style="background:var(--mod)"></span>Moderate</td>
+              <td>101 – 200</td>
+              <td>Breathing discomfort for people with lung or heart disease</td>
+            </tr>
+            <tr>
+              <td><span class="bucket-dot" style="background:var(--poor)"></span>Poor</td>
+              <td>201 – 300</td>
+              <td>Breathing discomfort for most people on prolonged exposure</td>
+            </tr>
+            <tr>
+              <td><span class="bucket-dot" style="background:var(--vpoor)"></span>Very Poor</td>
+              <td>301 – 400</td>
+              <td>Respiratory illness on prolonged exposure</td>
+            </tr>
+            <tr>
+              <td><span class="bucket-dot" style="background:var(--severe)"></span>Severe</td>
+              <td>401 – 500</td>
+              <td>Affects healthy people, serious impact on those with existing diseases</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <div class="section-eyebrow">Section 3</div>
+        <h2>Forecast: linear regression on 30-day history</h2>
+        <p>For each station, we fit a simple linear regression of daily mean AQI against day index over the trailing 30 days. The model has two parameters: a slope and an intercept. The prediction for day d is y(d) = a + b&middot;d. The 7-day forecast is the value of y(d) at d = today+1 through d = today+7. The confidence band is ± one standard error of the regression residuals, scaled per day.</p>
+
+        <div class="code-wrap">
+          <div class="code-eyebrow">Pseudocode</div>
+          <div class="code">
+            <div class="line"># for each station s:</div>
+            <div class="line">history = last_30_days_of_daily_mean_aqi(s)</div>
+            <div class="line">X = [0, 1, 2, ..., 29]</div>
+            <div class="line">y = history</div>
+            <div class="line">a, b = linear_regression(X, y)            <span class="comment"># slope and intercept</span></div>
+            <div class="line">for d in range(1, 8):</div>
+            <div class="line">    predicted[d] = a + b * (29 + d)</div>
+            <div class="line">    stderr = residual_std_error(X, y, a, b)</div>
+            <div class="line">    ci[d] = (predicted[d] - stderr, predicted[d] + stderr)</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-eyebrow">Section 4</div>
+        <h2>Why linear regression</h2>
+        <p>We picked OLS linear regression for v1 because it is interpretable, fast to compute, and matches the regression unit in our second-year Mathematics for Computer Engineering course. The R-squared value displayed on the forecast page is honest about model fit — if it is low, the prediction is unreliable. We will move to ARIMA or an LSTM only if real data shows linear regression is consistently wrong on the test set.</p>
+      </section>
+
+      <section class="section">
+        <div class="section-eyebrow">Section 5</div>
+        <h2>AI-generated advisories</h2>
+        <p>The Plain-English summary on the forecast page and the personalised advisories are generated by a large language model hosted on Groq. The model receives the current AQI, the 7-day forecast, and the user-selected profile (healthy adult, child, elderly, asthmatic). It produces a 2-4 sentence advisory grounded in WHO and Indian Medical Association guidelines. The model is not a medical authority — advisories are a starting point, not a substitute for professional care.</p>
+      </section>
+
+      <section class="section">
+        <div class="section-eyebrow">Section 6</div>
+        <h2>Limitations</h2>
+        <p>We do not currently: (1) account for indoor air quality, (2) forecast pollutant-specific health risk, (3) model micro-local effects (one street vs. another), (4) handle station outages gracefully, (5) cover cities without a CPCB station within ~10 km. v2 will add better station-outage handling and a confidence breakdown per day.</p>
+      </section>
+
+      <div class="sources">
+        <div class="label">References</div>
+        <ul>
+          <li>CPCB National AQI Computation Method (2014)</li>
+          <li>WHO Global Air Quality Guidelines (2021)</li>
+          <li>CPCB Continuous Ambient Air Quality Monitoring data (open API)</li>
+          <li>Indian Medical Association — Air Pollution and Public Health (2023)</li>
+        </ul>
+      </div>
+
+    </article>
+
+    <div class="footer">
+      Aira AI &middot; Built for Maharashtra &middot; <a href="#methodology">Back to top</a>
+    </div>
+  </div>
+</body>
+</html>

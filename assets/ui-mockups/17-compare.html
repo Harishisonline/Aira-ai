@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>Aira AI — Compare Borivali vs Andheri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #f8fafc; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #111827; font-size: 15px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { width: 1440px; margin: 0 auto; background: #f8fafc; min-height: 100vh; }
+
+  /* NAV (shared component) */
+  .nav {
+    height: 80px; padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #ffffff; border-bottom: 1px solid #e2e8f0;
+  }
+  .brand { font-size: 22px; font-weight: 700; color: #0f4c75; letter-spacing: -0.01em; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 15px; font-weight: 500; color: #4b5563; text-decoration: none; }
+  .nav-links a.active { color: #111827; font-weight: 600; }
+  .nav-divider { width: 1px; height: 20px; background: #e2e8f0; margin: 0 4px; }
+  .nav-secondary { font-size: 13px !important; font-weight: 500; color: #94a3b8 !important; padding: 8px 12px; border-radius: 8px; text-decoration: none; }
+  .nav-secondary:hover { background: #f8fafc; color: #4b5563 !important; }
+  .nav-link-settings {
+    margin-left: 4px; padding: 8px 14px; border-radius: 8px;
+    font-size: 14px; font-weight: 500; color: #4b5563; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-link-settings:hover { background: #f8fafc; color: #111827; }
+  .nav-cta {
+    margin-left: 16px; padding: 10px 18px;
+    background: #0f4c75; color: #ffffff !important; border-radius: 8px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    display: inline-block;
+  }
+  .nav-cta:hover { background: #0c3e5e; }
+
+  .container { padding: 0 48px 80px; }
+  .crumb {
+    display: flex; gap: 8px; align-items: center;
+    padding: 24px 0 0; font-size: 13px; font-weight: 500; color: #94a3b8;
+  }
+  .crumb a { color: #94a3b8; text-decoration: none; }
+  .crumb .current { color: #4b5563; }
+
+  /* Header */
+  .head {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 16px; margin: 16px 0 24px;
+  }
+  h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; color: #111827; }
+  .header-sub { font-size: 14px; line-height: 1.5; color: #4b5563; margin-top: 8px; max-width: 720px; }
+  .change-location {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    background: #ffffff; border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    font-size: 13px; font-weight: 500; color: #111827;
+    text-decoration: none; cursor: pointer;
+  }
+  .change-location .pin { color: #00a896; }
+  .change-location .chev { color: #94a3b8; }
+
+  /* Picker bar */
+  .picker {
+    display: flex; align-items: center; gap: 16px;
+    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px;
+    padding: 14px 18px; margin-bottom: 24px;
+  }
+  .picker label { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; }
+  .picker select {
+    flex: 1; padding: 10px 12px;
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
+    font-size: 14px; font-weight: 500; color: #111827;
+    -webkit-appearance: none; appearance: none;
+  }
+  .picker .vs {
+    font-size: 14px; font-weight: 700; color: #94a3b8;
+    padding: 0 4px;
+  }
+  .picker button {
+    padding: 10px 18px; background: #0f4c75; color: #ffffff;
+    border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+  }
+  .picker button:hover { background: #0c3e5e; }
+
+  /* Headline strip — 2 AQI cards */
+  .headline {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px;
+    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;
+    padding: 24px; margin-bottom: 24px;
+  }
+  .aqi-card {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .aqi-card .area { font-size: 14px; font-weight: 600; color: #4b5563; }
+  .aqi-card .row { display: flex; align-items: baseline; gap: 8px; }
+  .aqi-card .val { font-size: 56px; font-weight: 800; line-height: 1; }
+  .aqi-card .bucket { font-size: 13px; font-weight: 600; }
+  .aqi-card .meta { font-size: 12px; color: #4b5563; margin-top: 6px; }
+  .aqi-card .verdict {
+    display: inline-block; margin-top: 8px;
+    padding: 6px 10px; border-radius: 8px;
+    font-size: 12px; font-weight: 600;
+  }
+  .val.mod   { color: #d97706; }
+  .val.poor  { color: #ff8c00; }
+  .bucket.mod { color: #d97706; }
+  .bucket.poor { color: #ff8c00; }
+  .verdict.best { background: rgba(0,168,150,0.10); color: #006b5d; }
+  .verdict.avoid { background: rgba(220,53,69,0.10); color: #b02a37; }
+  .vs-divider {
+    align-self: center; font-size: 18px; font-weight: 700; color: #cbd5e1;
+    padding: 0 8px;
+  }
+
+  /* Section card */
+  .section-card {
+    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;
+    padding: 24px; margin-bottom: 24px;
+  }
+  .section-eyebrow {
+    font-size: 11px; font-weight: 600; color: #00a896;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  h2 {
+    font-size: 20px; font-weight: 700; color: #111827;
+    margin-bottom: 16px;
+  }
+
+  /* Forecast overlay chart */
+  .forecast-wrap {
+    background: #f8fafc; border-radius: 12px; padding: 24px; height: 320px;
+    position: relative;
+  }
+  .band {
+    position: absolute; left: 24px; right: 24px; height: 50px;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 12px; font-size: 10px; font-weight: 600; color: #4b5563;
+    letter-spacing: 0.06em;
+  }
+  .band-good  { top: 0;    background: rgba(0,153,102,0.10); }
+  .band-sat   { top: 50px;  background: rgba(30,161,117,0.10); }
+  .band-mod   { top: 100px; background: rgba(255,196,0,0.12); }
+  .band-poor  { top: 150px; background: rgba(255,140,0,0.12); }
+  .band-vpoor { top: 200px; background: rgba(220,53,69,0.12); }
+
+  svg.fc { position: absolute; left: 24px; right: 24px; top: 0; width: calc(100% - 48px); height: 320px; }
+  svg .grid { stroke: #e2e8f0; stroke-width: 1; }
+  svg .label { font-family: 'Inter'; font-size: 10px; font-weight: 600; fill: #94a3b8; }
+  svg .line-a { fill: none; stroke: #00a896; stroke-width: 2.5; }
+  svg .line-b { fill: none; stroke: #ff8c00; stroke-width: 2.5; stroke-dasharray: 6 3; }
+  svg .dot-a { fill: #00a896; }
+  svg .dot-b { fill: #ff8c00; }
+
+  /* Legend */
+  .legend { display: flex; gap: 24px; margin-bottom: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: #4b5563; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .legend-dot.a { background: #00a896; }
+  .legend-dot.b { background: #ff8c00; }
+
+  /* Pollutant bars */
+  .pol-row {
+    display: grid; grid-template-columns: 80px 1fr 1fr 200px;
+    align-items: center; gap: 16px;
+    padding: 14px 0; border-bottom: 1px solid #f1f5f9;
+  }
+  .pol-row:last-child { border-bottom: none; }
+  .pol-name { font-size: 13px; font-weight: 600; color: #111827; }
+  .pol-bar {
+    height: 24px; background: #f1f5f9; border-radius: 6px; position: relative; overflow: hidden;
+  }
+  .pol-fill {
+    position: absolute; top: 0; left: 0; bottom: 0;
+    background: linear-gradient(90deg, #00a896 0%, #008c7e 100%);
+    border-radius: 6px;
+  }
+  .pol-fill.b { background: linear-gradient(90deg, #ff8c00 0%, #e07600 100%); }
+  .pol-value {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    font-size: 12px; font-weight: 700; color: #ffffff;
+  }
+  .pol-note { font-size: 12px; color: #4b5563; }
+
+  /* Health implications */
+  .implications {
+    background: rgba(0,168,150,0.10);
+    border: 1px solid rgba(0,168,150,0.2);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+  .implications h3 { font-size: 11px; font-weight: 600; color: #00a896; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px; }
+  .implications p { font-size: 15px; line-height: 1.6; color: #111827; }
+  .implications .src { display: inline-block; margin-left: 4px; font-size: 10px; font-weight: 600; color: #00a896; background: #ffffff; padding: 2px 6px; border-radius: 4px; vertical-align: middle; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+  <div class="page">
+
+    <nav class="nav">
+      <div class="brand">Aira AI</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">City</a>
+        <a href="#" class="active">Compare</a>
+        <a href="#">Map</a>
+        <a href="#">Advisory</a>
+        <span class="nav-divider"></span>
+        <a href="#" class="nav-secondary">Methodology</a>
+        <a href="#" class="nav-secondary">Help</a>
+        <a href="#" class="nav-link-settings">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+        <a href="#" class="nav-cta">Sign in</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="crumb">
+        <a href="#">Home</a>
+        <span>/</span>
+        <a href="#">Mumbai</a>
+        <span>/</span>
+        <a href="#">Borivali</a>
+        <span>/</span>
+        <span class="current">Compare</span>
+      </div>
+
+      <div class="head">
+        <div>
+          <h1>Borivali vs Andheri</h1>
+          <p class="header-sub">Side-by-side comparison of two Maharashtra stations. Both areas must be in the same state in v1.</p>
+        </div>
+        <a href="#" class="change-location">
+          <svg class="pin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Change location
+          <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+      </div>
+
+      <div class="picker">
+        <div style="flex:1;">
+          <label>Area 1</label>
+          <select><option>Borivali, Mumbai · Maharashtra</option><option>Andheri, Mumbai · Maharashtra</option><option>Bandra, Mumbai · Maharashtra</option></select>
+        </div>
+        <div class="vs">vs</div>
+        <div style="flex:1;">
+          <label>Area 2</label>
+          <select><option>Andheri, Mumbai · Maharashtra</option><option>Borivali, Mumbai · Maharashtra</option><option>Bandra, Mumbai · Maharashtra</option></select>
+        </div>
+        <button>Compare</button>
+      </div>
+
+      <div class="headline">
+        <div class="aqi-card">
+          <div class="area">Borivali, Mumbai</div>
+          <div class="row">
+            <div class="val mod">142</div>
+            <div class="bucket mod">Moderate</div>
+          </div>
+          <div class="meta">Dominant: PM2.5 · Last updated 14 min ago</div>
+          <div class="verdict best">✓ Best for children today</div>
+        </div>
+        <div class="vs-divider">vs</div>
+        <div class="aqi-card">
+          <div class="area">Andheri, Mumbai</div>
+          <div class="row">
+            <div class="val poor">168</div>
+            <div class="bucket poor">Poor</div>
+          </div>
+          <div class="meta">Dominant: PM2.5 · Last updated 14 min ago</div>
+          <div class="verdict avoid">✕ Avoid for children today</div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-eyebrow">7-day forecast</div>
+        <h2>Both areas, side by side</h2>
+        <div class="legend">
+          <div class="legend-item"><span class="legend-dot a"></span>Borivali</div>
+          <div class="legend-item"><span class="legend-dot b"></span>Andheri</div>
+        </div>
+        <div class="forecast-wrap">
+          <div class="band band-good">GOOD</div>
+          <div class="band band-sat">SAT</div>
+          <div class="band band-mod">MOD</div>
+          <div class="band band-poor">POOR</div>
+          <div class="band band-vpoor">V POOR</div>
+
+          <svg class="fc" viewBox="0 0 1280 320" preserveAspectRatio="none">
+            <line class="grid" x1="0" y1="50"  x2="1280" y2="50"  />
+            <line class="grid" x1="0" y1="100" x2="1280" y2="100" />
+            <line class="grid" x1="0" y1="150" x2="1280" y2="150" />
+            <line class="grid" x1="0" y1="200" x2="1280" y2="200" />
+
+            <text class="label" x="0"   y="14">TODAY</text>
+            <text class="label" x="800" y="14">+3 DAYS</text>
+            <text class="label" x="1180" y="14">+7</text>
+
+            <!-- Borivali: stays in Moderate (orange) -->
+            <path class="line-a" d="M 20 200 L 100 195 L 180 205 L 260 195 L 340 200 L 420 210 L 500 215 L 580 200 L 660 195 L 740 200 L 820 195 L 900 200 L 980 195 L 1060 210 L 1140 200 L 1220 205" />
+            <!-- Andheri: rises into Poor (red) -->
+            <path class="line-b" d="M 20 150 L 100 145 L 180 140 L 260 135 L 340 130 L 420 135 L 500 145 L 580 140 L 660 130 L 740 120 L 820 110 L 900 105 L 980 115 L 1060 120 L 1140 115 L 1220 130" />
+
+            <circle class="dot-a" cx="20"  cy="200" r="4" />
+            <circle class="dot-a" cx="180" cy="205" r="4" />
+            <circle class="dot-a" cx="340" cy="200" r="4" />
+            <circle class="dot-a" cx="500" cy="215" r="4" />
+            <circle class="dot-a" cx="660" cy="195" r="4" />
+            <circle class="dot-a" cx="820" cy="195" r="4" />
+            <circle class="dot-a" cx="980" cy="195" r="4" />
+            <circle class="dot-a" cx="1140" cy="200" r="4" />
+
+            <circle class="dot-b" cx="20"  cy="150" r="4" />
+            <circle class="dot-b" cx="180" cy="140" r="4" />
+            <circle class="dot-b" cx="340" cy="130" r="4" />
+            <circle class="dot-b" cx="500" cy="145" r="4" />
+            <circle class="dot-b" cx="660" cy="130" r="4" />
+            <circle class="dot-b" cx="820" cy="110" r="4" />
+            <circle class="dot-b" cx="980" cy="115" r="4" />
+            <circle class="dot-b" cx="1140" cy="115" r="4" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-eyebrow">Pollutant comparison</div>
+        <h2>What's different right now</h2>
+
+        <div class="pol-row">
+          <div class="pol-name">PM2.5</div>
+          <div class="pol-bar"><div class="pol-fill" style="width:46%"><span class="pol-value">38</span></div></div>
+          <div class="pol-bar"><div class="pol-fill b" style="width:85%"><span class="pol-value">71</span></div></div>
+          <div class="pol-note">PM2.5 is 87% higher in Andheri</div>
+        </div>
+
+        <div class="pol-row">
+          <div class="pol-name">PM10</div>
+          <div class="pol-bar"><div class="pol-fill" style="width:55%"><span class="pol-value">92</span></div></div>
+          <div class="pol-bar"><div class="pol-fill b" style="width:78%"><span class="pol-value">128</span></div></div>
+          <div class="pol-note">PM10 is 39% higher in Andheri</div>
+        </div>
+
+        <div class="pol-row">
+          <div class="pol-name">NO2</div>
+          <div class="pol-bar"><div class="pol-fill" style="width:32%"><span class="pol-value">22</span></div></div>
+          <div class="pol-bar"><div class="pol-fill b" style="width:48%"><span class="pol-value">33</span></div></div>
+          <div class="pol-note">NO2 is 50% higher in Andheri</div>
+        </div>
+
+        <div class="pol-row">
+          <div class="pol-name">SO2</div>
+          <div class="pol-bar"><div class="pol-fill" style="width:18%"><span class="pol-value">7</span></div></div>
+          <div class="pol-bar"><div class="pol-fill b" style="width:22%"><span class="pol-value">9</span></div></div>
+          <div class="pol-note">SO2 is similar in both areas</div>
+        </div>
+
+        <div class="pol-row">
+          <div class="pol-name">CO</div>
+          <div class="pol-bar"><div class="pol-fill" style="width:24%"><span class="pol-value">0.8</span></div></div>
+          <div class="pol-bar"><div class="pol-fill b" style="width:36%"><span class="pol-value">1.2</span></div></div>
+          <div class="pol-note">CO is 50% higher in Andheri</div>
+        </div>
+
+        <div class="pol-row">
+          <div class="pol-name">O3</div>
+          <div class="pol-bar"><div class="pol-fill" style="width:41%"><span class="pol-value">41</span></div></div>
+          <div class="pol-bar"><div class="pol-fill b" style="width:38%"><span class="pol-value">38</span></div></div>
+          <div class="pol-note">O3 is similar in both areas</div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-eyebrow">Health implications</div>
+        <h2>What this means for your child</h2>
+        <div class="implications">
+          <h3>For children · today</h3>
+          <p>Borivali's PM2.5 is 38 µg/m³ today vs Andheri's 71 — the rest of the pollutant picture is similar. For a child with mild asthma, Borivali is the safer choice for outdoor activity today <span class="src">[source: get_current_aqi, Jan 15]</span>. Andheri's PM2.5 will rise to around 95 µg/m³ by Friday afternoon <span class="src">[source: get_7day_forecast, Jan 15]</span>, well into the Poor range; an hour of playground time at Andheri today is fine if you go before 10am, but Borivali's window is wider. <span class="src">[source: get_recent_advisories_for_user(3), Jan 15]</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

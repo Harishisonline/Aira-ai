@@ -1,0 +1,31 @@
+# Next.js build artifacts
+.next/
+out/
+build/
+dist/
+node_modules/
+
+# Environment (NEVER bake into a Docker image)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+
+# Git
+.git/
+.gitignore
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Tests (separate test stage, not runtime)
+tests/
+playwright-report/
+test-results/

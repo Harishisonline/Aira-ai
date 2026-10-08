@@ -1,0 +1,332 @@
+/* Port of assets/ui-mockups/13-select-area.html */
+
+.layout {
+  min-height: 100vh;
+  background: var(--bg-page);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 24px 48px 40px;
+}
+
+.topBrand {
+  color: var(--primary);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 640px;
+  width: 100%;
+  margin: auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.lockedPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-1);
+  margin-bottom: 20px;
+}
+
+.lockIcon {
+  color: var(--text-muted);
+  display: inline-flex;
+}
+
+.lockedHint {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.h1 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-1);
+}
+
+.lede {
+  font-size: 15px;
+  color: var(--text-2);
+  margin: 8px 0 28px;
+  line-height: 1.55;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 28px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  padding: 4px 6px;
+  border-radius: 8px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.step:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.stepDone { color: var(--accent); }
+.stepActive { color: var(--text-1); font-weight: 600; }
+
+.stepNum {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-page);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepDone .stepNum {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.stepActive .stepNum {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.stepLine {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin: 0 12px;
+  min-width: 24px;
+}
+
+.stepLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.cityCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  width: 100%;
+}
+
+.cityCard:hover { border-color: var(--accent); }
+
+.optionIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--accent-tint);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cityName {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.cityMeta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.placesHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  background: var(--accent-tint);
+  border: 1px solid rgba(0, 168, 150, 0.2);
+  border-radius: 10px;
+}
+
+.changeCity {
+  margin-left: auto;
+  background: var(--bg-card);
+  border: none;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: inherit;
+}
+
+.places {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.placeCard {
+  padding: 14px 16px;
+  background: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+
+.placeCard:hover { border-color: var(--accent); }
+
+.placeCardActive {
+  background: var(--accent-tint);
+  border-color: var(--accent);
+}
+
+.stateGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.stateChip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-page);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-1);
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.stateChipActive {
+  background: var(--accent-tint);
+  border-color: var(--accent);
+}
+
+.stateName {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.stateMeta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.stateCheck {
+  margin-left: auto;
+  color: var(--accent);
+  display: inline-flex;
+}
+
+.placeName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.placeMeta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  align-items: center;
+}
+
+.btnPrimary {
+  padding: 10px 24px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btnPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnLink {
+  padding: 10px 16px;
+  background: transparent;
+  color: var(--accent);
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btnLink:hover { text-decoration: underline; }
+
+@media (max-width: 560px) {
+  .grid, .places { grid-template-columns: 1fr; }
+  .card { padding: 24px; }
+}

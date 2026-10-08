@@ -1,0 +1,52 @@
+# Build artifacts
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+env/
+
+# Environment (NEVER bake into a Docker image)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docs (not needed at runtime)
+*.md
+docs/
+prd/
+
+# Tests
+tests/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node
+node_modules/
+
+# Logs
+*.log
+logs/

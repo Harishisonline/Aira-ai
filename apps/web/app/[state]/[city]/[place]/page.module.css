@@ -1,0 +1,69 @@
+.main {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.hero {
+  padding: 64px 48px 0;
+}
+
+.heroRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.h1 {
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-1);
+  margin: 0;
+}
+
+.lede {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--text-2);
+  max-width: 720px;
+}
+
+.aqiWrap {
+  margin: 48px;
+}
+
+.destSection {
+  padding: 32px 48px 64px;
+}
+
+.h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 24px;
+}
+
+.destGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 800px) {
+  .hero, .destSection { padding-left: 20px; padding-right: 20px; }
+  .h1 { font-size: 36px; }
+  .aqiWrap { margin: 32px 20px; }
+  .heroRow { flex-direction: column; }
+}

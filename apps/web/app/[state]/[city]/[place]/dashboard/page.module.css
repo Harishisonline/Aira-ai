@@ -1,0 +1,119 @@
+.main { padding: 0 48px 64px; max-width: 1440px; margin: 0 auto; }
+
+.crumb {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 24px 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.crumb a { color: var(--text-muted); text-decoration: none; }
+.current { color: var(--text-2); }
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 16px 0 8px;
+}
+.h1 {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-1);
+  margin: 0;
+}
+.headerSub {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-2);
+  margin: 8px 0 0;
+}
+
+.aqiCard {
+  margin-top: 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  display: grid;
+  grid-template-columns: minmax(260px, 420px) 1fr;
+  gap: 48px;
+}
+.aqiLeft { display: flex; flex-direction: column; gap: 12px; }
+.station { font-size: 14px; font-weight: 500; color: var(--text-2); }
+.aqiNum {
+  font-size: 120px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.aqiBucket { font-size: 14px; font-weight: 600; color: var(--text-2); }
+.stale { font-size: 12px; font-weight: 600; color: var(--vpoor); }
+.cta {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background: var(--primary);
+  color: #fff !important;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  width: fit-content;
+}
+.cta:hover { background: var(--primary-hover); text-decoration: none; }
+
+.aqiRight { display: flex; flex-direction: column; }
+.pollRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+}
+.pollName { font-size: 16px; font-weight: 500; color: var(--text-1); }
+.pollVal { font-size: 16px; font-weight: 600; }
+.good { color: var(--good); }
+.sat { color: var(--sat); }
+.mod { color: var(--mod); }
+.poor { color: var(--poor); }
+
+.advisory {
+  margin-top: 24px;
+  background: #fff4dc;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.advisoryIcon {
+  width: 32px;
+  height: 32px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--poor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.advisoryBody { display: flex; flex-direction: column; gap: 4px; }
+.advisoryTitle { font-size: 14px; font-weight: 600; color: var(--text-1); }
+.advisoryText { font-size: 14px; line-height: 1.5; color: var(--text-2); }
+.signinPrompt { font-size: 13px; color: var(--text-2); margin-top: 8px; }
+.signinPrompt a { font-weight: 600; }
+
+@media (max-width: 900px) {
+  .main { padding: 0 20px 48px; }
+  .aqiCard { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
+  .aqiNum { font-size: 88px; }
+  .head { flex-direction: column; }
+}

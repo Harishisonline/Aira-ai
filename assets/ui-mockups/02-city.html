@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>Aira AI — Mumbai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --good: #009966; --sat: #1ea175; --mod: #ffc400; --poor: #ff8c00;
+    --vpoor: #dc3545; --severe: #7a0c28;
+    --primary: #0f4c75; --accent: #00a896;
+    --page: #f8fafc; --card: #ffffff;
+    --text-1: #111827; --text-2: #4b5563; --text-muted: #94a3b8;
+    --border: #e2e8f0;
+    --warn-bg: #fff4dc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--page); }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-1); font-size: 15px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { width: 1440px; margin: 0 auto; background: var(--page); }
+
+  .nav {
+    height: 80px; padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--card); border-bottom: 1px solid var(--border);
+  }
+  .brand { font-size: 22px; font-weight: 700; color: var(--primary); letter-spacing: -0.01em; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 15px; font-weight: 500; color: var(--text-2); text-decoration: none; }
+  .nav-links a.active { color: var(--text-1); font-weight: 600; }
+  .nav-divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+  .nav-secondary { font-size: 13px !important; font-weight: 500; color: var(--text-muted) !important; padding: 8px 12px; border-radius: 8px; }
+  .nav-secondary:hover { background: var(--page); color: var(--text-2) !important; }
+  .nav-secondary.active { color: var(--text-2) !important; font-weight: 600 !important; background: var(--page); }
+  .nav-cta {
+    margin-left: 16px; padding: 10px 18px;
+    background: var(--primary); color: #ffffff !important;
+    border-radius: 8px; font-size: 14px; font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .nav-cta:hover { background: #0c3e5e; }
+  .nav-link-settings {
+    margin-left: 4px; padding: 8px 14px;
+    border-radius: 8px; font-size: 14px; font-weight: 500;
+    color: var(--text-2); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-link-settings:hover { background: var(--page); color: var(--text-1); }
+  .nav-link-settings.active { color: var(--text-1); font-weight: 600; background: var(--page); }
+
+  /* Change-location pill — shared across all main app pages */
+  .change-location {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px; font-weight: 500; color: var(--text-1);
+    cursor: pointer; text-decoration: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .change-location:hover { border-color: var(--accent); background: var(--page); }
+  .change-location .pin { color: var(--accent); }
+  .change-location .chev { color: var(--text-muted); }
+
+  .container { padding: 0 48px 64px; }
+  .crumb { display: flex; gap: 8px; align-items: center; padding: 24px 0 0; font-size: 13px; font-weight: 500; color: var(--text-muted); }
+  .crumb a { color: var(--text-muted); text-decoration: none; }
+  .crumb .current { color: var(--text-2); }
+
+  h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-1); margin: 16px 0 8px; }
+  .header-sub { font-size: 15px; line-height: 1.5; color: var(--text-2); }
+
+  .aqi-card {
+    margin-top: 32px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+    padding: 40px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    display: grid; grid-template-columns: 420px 1fr; gap: 48px;
+  }
+  .aqi-left { display: flex; flex-direction: column; gap: 12px; }
+  .station { font-size: 14px; font-weight: 500; color: var(--text-2); }
+  .aqi-number {
+    font-size: 120px; font-weight: 700; color: var(--poor);
+    line-height: 1; letter-spacing: -0.03em;
+  }
+  .aqi-bucket { font-size: 14px; font-weight: 600; color: var(--text-2); }
+  .cta {
+    margin-top: 8px;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 20px; background: var(--primary); color: var(--card);
+    border-radius: 10px; font-size: 14px; font-weight: 600;
+    text-decoration: none; width: fit-content;
+  }
+  .aqi-right { display: flex; flex-direction: column; }
+  .poll-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0; border-top: 1px solid var(--border);
+  }
+  .poll-name { font-size: 16px; font-weight: 500; color: var(--text-1); }
+  .poll-val { font-size: 16px; font-weight: 600; }
+  .poll-val.poor { color: var(--poor); }
+  .poll-val.mod { color: var(--mod); }
+  .poll-val.sat { color: var(--sat); }
+  .poll-val.good { color: var(--good); }
+
+  .advisory {
+    margin-top: 24px;
+    background: var(--warn-bg); border-radius: 12px;
+    padding: 20px 24px; display: flex; gap: 20px; align-items: flex-start;
+  }
+  .advisory-icon {
+    width: 32px; height: 32px;
+    font-size: 22px; font-weight: 700; color: var(--poor);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .advisory-body { display: flex; flex-direction: column; gap: 4px; }
+  .advisory-title { font-size: 14px; font-weight: 600; color: var(--text-1); }
+  .advisory-text { font-size: 14px; line-height: 1.5; color: var(--text-2); }
+  /* v1.2 compare panel */
+  .compare-panel { background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-top: 16px; }
+  .compare-head { margin-bottom: 16px; }
+  .compare-title { font-size: 17px; font-weight: 600; color: var(--text-1); margin-bottom: 4px; }
+  .compare-sub { font-size: 13px; color: var(--text-2); }
+  .compare-pickers { display: flex; align-items: flex-end; gap: 12px; }
+  .compare-pick { flex: 1; }
+  .compare-pick label { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .compare-pick select { width: 100%; padding: 10px 12px; background: var(--page); border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 13px; color: var(--text-1); font-weight: 500; cursor: pointer; -webkit-appearance: none; appearance: none; }
+  .compare-vs { padding: 0 8px 12px; font-size: 13px; font-weight: 700; color: var(--text-muted); }
+  .compare-btn { padding: 10px 20px; background: var(--primary); color: #ffffff !important; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .compare-btn:hover { background: var(--primary-hover); }
+</style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav">
+      <div class="brand">Aira AI</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#" class="active">City</a>
+        <a href="#">Compare</a>
+        <a href="#">Map</a>
+        <a href="#">Advisory</a>
+        <span class="nav-divider"></span>
+        <a href="#" class="nav-secondary">Methodology</a>
+        <a href="#" class="nav-secondary">Help</a>
+        <a href="#settings" class="nav-link-settings">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+        <a href="#" class="nav-cta">Sign in</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="crumb">
+        <a href="#">Home</a>
+        <span>/</span>
+        <a href="#">Mumbai</a>
+        <span>/</span>
+        <span class="current">Borivali</span>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 16px 0 8px;">
+        <div>
+          <h1 style="margin: 0;">Borivali, Mumbai</h1>
+          <p class="header-sub" style="margin: 8px 0 0;">Live AQI from the Borivali monitoring station. Last updated 14 min ago.</p>
+        </div>
+        <a href="#" class="change-location" style="flex-shrink: 0;">
+          <svg class="pin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Change location
+          <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+      </div>
+
+      <div class="aqi-card">
+        <div class="aqi-left">
+          <div class="station">Borivali Station</div>
+          <div class="aqi-number">142</div>
+          <div class="aqi-bucket">MODERATE &mdash; Acceptable, sensitive groups should consider reducing prolonged outdoor exertion</div>
+          <a href="#" class="cta">View 7-day forecast  &rarr;</a>
+        </div>
+        <div class="aqi-right">
+          <div class="poll-row">
+            <span class="poll-name">PM2.5</span>
+            <span class="poll-val poor">78 ug/m3</span>
+          </div>
+          <div class="poll-row">
+            <span class="poll-name">PM10</span>
+            <span class="poll-val mod">128 ug/m3</span>
+          </div>
+          <div class="poll-row">
+            <span class="poll-name">NO2</span>
+            <span class="poll-val sat">32 ug/m3</span>
+          </div>
+          <div class="poll-row">
+            <span class="poll-name">SO2</span>
+            <span class="poll-val good">9 ug/m3</span>
+          </div>
+          <div class="poll-row">
+            <span class="poll-name">CO</span>
+            <span class="poll-val good">0.6 mg/m3</span>
+          </div>
+          <div class="poll-row">
+            <span class="poll-name">O3</span>
+            <span class="poll-val sat">41 ug/m3</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="advisory">
+        <div class="advisory-icon">!</div>
+        <div class="advisory-body">
+          <div class="advisory-title">Health advisory for Healthy adults</div>
+          <div class="advisory-text">Limit prolonged outdoor exertion. PM2.5 levels are elevated. Consider an N95 mask if you exercise outdoors.</div>
+        </div>
+      </div>
+
+      <div class="compare-panel">
+        <div class="compare-head">
+          <div class="compare-title">Compare with another area</div>
+          <div class="compare-sub">See this place side-by-side with another. Both areas must be in the same state in v1.</div>
+        </div>
+        <div class="compare-pickers">
+          <div class="compare-pick">
+            <label>Area 1</label>
+            <select><option>Borivali, Mumbai &middot; Maharashtra</option><option>Bandra, Mumbai &middot; Maharashtra</option><option>Andheri, Mumbai &middot; Maharashtra</option></select>
+          </div>
+          <div class="compare-vs">vs</div>
+          <div class="compare-pick">
+            <label>Area 2</label>
+            <select><option>Andheri, Mumbai &middot; Maharashtra</option><option>Borivali, Mumbai &middot; Maharashtra</option><option>Bandra, Mumbai &middot; Maharashtra</option></select>
+          </div>
+          <a href="#" class="compare-btn">Compare &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

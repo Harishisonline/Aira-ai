@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+env/
+
+# Environment (NEVER bake into a Docker image)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+
+# Git
+.git/
+.gitignore
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Tests (separate test stage, not runtime)
+../tests/

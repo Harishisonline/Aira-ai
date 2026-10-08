@@ -1,0 +1,20 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "cd apps/web && npm run build",
+  "installCommand": "cd apps/web && npm ci --legacy-peer-deps",
+  "outputDirectory": "apps/web/.next",
+  "regions": ["bom1"],
+  "github": {
+    "silent": false
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    }
+  ]
+}

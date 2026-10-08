@@ -1,0 +1,45 @@
+# Aira AI — Railway deployment (https://railway.app)
+# Two services: web (Next.js) and worker (FastAPI + APScheduler)
+# Both read env vars from the Railway dashboard.
+
+services:
+  web:
+    name: aira-ai-web
+    root: apps/web
+    builder: NIXPACKS
+    buildCommand: pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm start
+    healthcheckPath: /api/health
+    healthcheckTimeout: 30
+    envVars:
+      NODE_ENV: production
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      WORKER_URL: ${WORKER_URL}
+      WORKER_INTERNAL_TOKEN: ${WORKER_INTERNAL_TOKEN}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      RESEND_FROM: ${RESEND_FROM:-Aira AI <hello@aira.example>}
+      OPENAQ_KEY: ${OPENAQ_KEY}
+      WEB_URL: ${WEB_URL}
+
+  worker:
+    name: aira-ai-worker
+    root: apps/worker
+    builder: NIXPACKS
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthcheckPath: /health
+    healthcheckTimeout: 30
+    envVars:
+      DATABASE_URL: ${DATABASE_URL}
+      SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      RESEND_FROM: ${RESEND_FROM:-Aira AI <hello@aira.example>}
+      OPENAQ_KEY: ${OPENAQ_KEY}
+      WORKER_URL: ${WORKER_URL}
+      WEB_URL: ${WEB_URL}
+      WORKER_INTERNAL_TOKEN: ${WORKER_INTERNAL_TOKEN}

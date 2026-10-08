@@ -1,0 +1,36 @@
+# Aira AI Worker — Python dependencies
+# Pinned to versions verified working on 2026-10-08. Bump carefully.
+# Worker requires Python 3.11+ (uses `from __future__ import annotations` and
+# PEP 604 union syntax `int | None` in newer modules).
+
+# --- Web framework ---
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+starlette==0.41.3
+
+# --- Scheduling (ingest every 15min, email queue every 60s, threshold scan) ---
+APScheduler==3.11.0
+
+# --- Database (async Postgres) ---
+asyncpg==0.30.0
+
+# --- HTTP client (OpenAQ, Resend, Supabase REST) ---
+httpx==0.28.1
+
+# --- Configuration ---
+python-dotenv==1.0.1
+
+# --- LLM (Groq, free tier) ---
+groq==0.13.0
+
+# --- Email (Resend, free tier) ---
+resend==2.10.0
+
+# --- Supabase (admin / service-role operations) ---
+# Note: the worker mostly uses the REST gateway via httpx; the Python client
+# is only needed if a code path uses the storage admin or auth admin API.
+supabase==2.10.0
+
+# --- Test deps (used in tests/, not at runtime) ---
+# pytest==8.3.4
+# pytest-asyncio==0.25.0

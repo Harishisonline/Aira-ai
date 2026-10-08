@@ -1,0 +1,38 @@
+# Fly.io config for the Aira AI worker (FastAPI)
+# Free tier: shared-cpu-1x, 256MB RAM. Enough for the FastAPI + scheduler.
+app = "aira-worker"
+primary_region = "bom"  # Mumbai — same as Supabase region for low latency
+
+[build]
+  dockerfile = "apps/worker/Dockerfile"
+
+[env]
+  APP_VERSION = "1.2.0"
+  PORT = "8000"
+  WEB_URL = "https://aira-ai.vercel.app"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+  protocol = "tcp"
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 50
+    hard_limit = 100
+
+[[http_service.checks]]
+  interval = "30s"
+  timeout = "5s"
+  grace_period = "10s"
+  method = "GET"
+  path = "/health"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 512

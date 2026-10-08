@@ -1,0 +1,81 @@
+version: "3.9"
+
+# Aira AI local development stack.
+# Boots: Postgres (with Supabase emulator if available), MailHog (email sandbox),
+# Next.js web app, Python FastAPI worker.
+# Usage: docker compose up --build
+# Then: open http://localhost:3000
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: aira
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # MailHog: SMTP server that captures all emails sent by the worker.
+  # Open the UI at http://localhost:8025 to see every email that would have
+  # been sent in production. For backtest mode we use this instead of Resend.
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+
+  worker:
+    build:
+      context: ./apps/worker
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/aira
+      SMTP_HOST: mailhog
+      SMTP_PORT: "1025"
+      SMTP_FROM: "Aira AI <test@aira.local>"
+      # When SMTP_HOST is set, the worker uses real SMTP for sends (captured
+      # by MailHog). When empty, the worker uses the Resend client. For
+      # backtest we always use SMTP/MailHog.
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      OPENAQ_KEY: ${OPENAQ_KEY}
+      AQI_FALLBACK_TO_MOCK: "true"
+      WORKER_URL: http://worker:8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "python3 -m app.db.migrate &&
+             python3 -m app.seed && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    environment:
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      WORKER_URL: http://worker:8000
+      WEB_URL: http://localhost:3000
+    depends_on:
+      worker:
+        condition: service_started
+    ports:
+      - "3000:3000"
+    command: npm run dev
+
+volumes:
+  pgdata:

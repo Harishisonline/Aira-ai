@@ -1,0 +1,26 @@
+.card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.left { display: flex; flex-direction: column; gap: 8px; }
+.station { font-size: 14px; color: var(--text-2); }
+.value { font-size: 88px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
+.bucket { font-size: 16px; font-weight: 600; }
+.dominant { color: var(--text-2); font-weight: 500; }
+.meta { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+.right { display: flex; flex-direction: column; }
+.pollRow {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.pollRow:last-child { border-bottom: none; }
+.pollName { font-size: 14px; color: var(--text-1); font-weight: 500; }
+.pollVal { font-size: 14px; font-weight: 700; }
