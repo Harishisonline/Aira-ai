@@ -48,3 +48,9 @@ pgdata/
 # Compiled Python
 *.pyc
 *.pyo
+
+# Markdown — only README.md ships to the repo (all other .md files are
+# internal artifacts and stay local: AUDIT.md, CHANGELOG.md, CURSOR_PROMPT.md,
+# DEPLOY.md, REMAIN.md, SUPABASE_DASHBOARD_SETUP.md, prd/PRD.md, etc.)
+*.md
+!README.md
