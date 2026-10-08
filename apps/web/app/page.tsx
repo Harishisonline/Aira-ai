@@ -144,8 +144,8 @@ export default async function LandingPage() {
         <div>
           <Link href="/methodology">Methodology</Link>
           <Link href="/help#privacy">Privacy</Link>
-          <a href="mailto:hello@aira.ai">Contact</a>
-          <a href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="mailto:harishp0132@gmail.com">Contact</a>
+          <a href="https://github.com/Harishisonline/Aira-ai" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </footer>
     </div>

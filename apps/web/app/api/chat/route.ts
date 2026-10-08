@@ -22,6 +22,7 @@ import {
   type Profile,
 } from '../../../lib/chat/tools';
 import { cacheGet, cachePut, cacheKeyFor, DAILY_MESSAGE_CAP } from '../../../lib/chat/ratelimit';
+import { publicChatText } from '../../../lib/chat/public-text';
 
 export const runtime = 'nodejs';
 
@@ -450,7 +451,7 @@ If they tell you a lasting personal detail, add one line at the very end in this
             text = `In ${ctx.placeName} the stored AQI is ${ctx.aqi} (${ctx.bucket}). The dominant pollutant is ${ctx.dominant}.`;
           }
           const kept = takeMemory(text);
-          text = kept.visible || text;
+          text = publicChatText(kept.visible || text);
           if (text.length > sent) controller.enqueue(encoder.encode(text.slice(sent)));
           if (kept.facts.length) {
             await rememberFacts(supabase, String(user.user_metadata?.aira_memory ?? ''), kept.facts);
@@ -514,6 +515,7 @@ If they tell you a lasting personal detail, add one line at the very end in this
   if (!finalText) {
     finalText = `In ${ctx.placeName} the stored AQI is ${ctx.aqi} (${ctx.bucket}). The dominant pollutant is ${ctx.dominant}.`;
   }
+  finalText = publicChatText(finalText);
 
   // 8. Persist assistant message + tool calls
   await persistAssistantMessage(supabase, body.sessionId, finalText, model, messages);

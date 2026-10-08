@@ -91,8 +91,7 @@ export default function HelpPage() {
               <h3>Example reply with citations</h3>
               <div className={styles.msgUser}>Is it safe for my son to play cricket this Saturday morning in Borivali?</div>
               <div className={styles.msgAssistant}>
-                Yes, Saturday morning is a good window. Borivali's AQI is forecast at 135 (Moderate) at 8am, peaking to 158 by afternoon <span className={styles.cite}>[source: get_7day_forecast, Jan 15]</span>. PM2.5 will be the limiting pollutant, around 58 ug/m3 <span className={styles.cite}>[source: get_7day_forecast]</span>. For an 8-year-old with mild asthma, an hour of outdoor play between 7-10am is safe. Avoid the 2-5pm peak <span className={styles.cite}>[source: get_7day_forecast]</span>.
-                <div className={styles.sources}><strong>Sources used:</strong> get_7day_forecast(borivali) · get_recent_advisories_for_user(5) · user.health_profile = "child, mild asthma"</div>
+                Yes, Saturday morning is a good window. Borivali's AQI is forecast at 135 (Moderate) at 8am, peaking to 158 by afternoon <span className={styles.cite}>[source: 7-day forecast, today]</span>. PM2.5 will be the limiting pollutant, around 58 ug/m3 <span className={styles.cite}>[source: stored readings, today]</span>. For an 8-year-old with mild asthma, an hour of outdoor play between 7-10am is safe. Avoid the 2-5pm peak <span className={styles.cite}>[source: 7-day forecast, today]</span>.
               </div>
             </div>
           </div>
@@ -127,7 +126,7 @@ export default function HelpPage() {
 
         <div className={styles.foot}>
           <span>v1.0 · Maharashtra · Built by Harish</span>
-          <span><Link href="/methodology">Methodology</Link> · <a href="#privacy">Privacy</a> · <a href="mailto:hello@aira.example">Contact</a> · <a href="https://github.com">GitHub</a></span>
+          <span><Link href="/methodology">Methodology</Link> · <a href="#privacy">Privacy</a> · <a href="mailto:harishp0132@gmail.com">Contact</a> · <a href="https://github.com/Harishisonline/Aira-ai" target="_blank" rel="noreferrer">GitHub</a></span>
         </div>
       </main></>
   );

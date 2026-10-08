@@ -94,9 +94,9 @@ export default function AboutSettings() {
         <div style={head}><div style={title}>Links</div></div>
         <div style={body}>
           <LinkRow label="Methodology" desc="How Aira AI computes AQI and forecasts it." href="/methodology" action="View →" />
-          <LinkRow label="Source code" desc="GitHub repository, MIT licensed." href="https://github.com" action="Open →" external />
+          <LinkRow label="Source code" desc="GitHub repository, MIT licensed." href="https://github.com/Harishisonline/Aira-ai" action="Open →" external />
           <LinkRow label="Privacy policy" desc="What we collect (almost nothing) and why." href="/help#privacy" action="Read →" />
-          <LinkRow label="Contact" desc="harish@example.com · usually replies within a day." href="mailto:harish@example.com" action="Email →" />
+          <LinkRow label="Contact" desc="harishp0132@gmail.com · usually replies within a day." href="mailto:harishp0132@gmail.com" action="Email →" />
         </div>
       </section>
 

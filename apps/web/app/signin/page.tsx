@@ -149,7 +149,7 @@ export default function SignInPage() {
           <Link href="/methodology">Methodology</Link>
           <Link href="/help">Help</Link>
           <Link href="/settings/about">About</Link>
-          <a href="mailto:harish@example.com">Contact</a>
+          <a href="mailto:harishp0132@gmail.com">Contact</a>
           <span className={styles.version}>v1 - Maharashtra</span>
         </div>
       </aside>

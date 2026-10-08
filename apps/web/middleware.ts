@@ -34,8 +34,11 @@ const SUPABASE_ORIGIN = (() => {
 
 const CSP = [
   "default-src 'self'",
-  // Scripts: self + the no-flash theme bootstrap inline (hashed). No third-party scripts.
-  "script-src 'self' 'unsafe-inline'",
+  // Scripts: self + the no-flash theme bootstrap inline. React's dev overlay
+  // rebuilds call stacks with eval(); production never does, so leave it off there.
+  process.env.NODE_ENV === 'development'
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+    : "script-src 'self' 'unsafe-inline'",
   // Styles: self + inline (Next.js runtime injects style tags)
   "style-src 'self' 'unsafe-inline'",
   // Images: self + data: URIs (avatars stored as data URLs in some flows)

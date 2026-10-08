@@ -25,6 +25,7 @@ import { useSearchParams, useParams } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import styles from './page.module.css';
 import { unslug } from '../../../../../../lib/area';
+import { publicChatText } from '../../../../../../lib/chat/public-text';
 
 interface Message {
   id: string;
@@ -64,6 +65,7 @@ function groupByRecency(sessions: Session[]): GroupedSessions {
 
 // Parse the [source: tool_name, time] citation chips in the assistant's reply
 function renderWithCitations(text: string) {
+  text = publicChatText(text);
   const parts: (string | { kind: 'citation'; tool: string; time: string })[] = [];
   const re = /\[source:\s*([^,]+),\s*([^\]]+)\]/g;
   let lastIndex = 0;
