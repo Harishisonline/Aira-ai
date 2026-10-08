@@ -77,7 +77,11 @@ async function checkWorker(): Promise<{ ok: boolean; latencyMs: number; error?: 
 
 export async function GET() {
   const [db, worker] = await Promise.all([checkDatabase(), checkWorker()]);
-  const ok = db.ok && worker.ok;
+  // Only the database gates the HTTP status. The worker is best-effort:
+  // pages read directly from Supabase REST, so a missing worker doesn't
+  // make the web unhealthy. Worker status is still reported in `checks`
+  // for monitoring, but won't flip the status code to 503.
+  const ok = db.ok;
   return NextResponse.json(
     {
       ok,
